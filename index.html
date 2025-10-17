@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THE KID IN THE BOX — Retro 90s Web</title>
+  <title>THE KID IN THE BOX</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
 
   <meta name="description" content="Personal music site in a deliciously 90s style: glitter, marquees, tiled backgrounds, and a custom cursor."/>
@@ -24,7 +24,6 @@
     html,body{height:100%}
     body{
       margin:0; color:var(--lite); background:#0b0022;
-      /* Layered retro space-grid background */
       background-image:
         radial-gradient(circle at 10% 20%, rgba(255,255,255,.20) 0 1px, transparent 2px),
         radial-gradient(circle at 80% 40%, rgba(255,255,255,.15) 0 1px, transparent 2px),
@@ -36,28 +35,11 @@
       -webkit-font-smoothing: none; text-rendering: optimizeSpeed; font-smooth: never;
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="16,2 19,11 29,11 21,17 24,26 16,20 8,26 11,17 3,11 13,11" fill="%23ff00d4" stroke="%2300ffea" stroke-width="2"/></svg>') 16 2, auto;
     }
-
-    .vinyl-img{
-      position: absolute;
-      width: 64px;
-      height: 64px;
-      cursor: pointer;
-      animation: spinVinyl 1s linear infinite;
-      object-fit: contain;
-      image-rendering: pixelated;
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: auto;
-      border: none;
-    }
-
-    /* CRT scanlines overlay */
     body::after{
       content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
       background-image: linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px);
       background-size: 100% 3px; mix-blend-mode: overlay; opacity:.6;
     }
-    /* Twinkling parallax stars */
     body::before{
       content:""; position:fixed; inset:-10%; pointer-events:none; z-index:0;
       background:
@@ -81,8 +63,9 @@
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(22px, 3.2vw, 44px); letter-spacing: 1.5px; margin:0; text-transform: uppercase;
       background: linear-gradient(90deg, #ff00d4, #00ffea, #fffd37, #ff00d4);
-      background-size: 300% 100%; -webkit-background-clip:text; background-clip:text; color: transparent;
-      animation: rainbow 8s linear infinite; text-shadow: 0 0 0 transparent;
+      background-size: 300% 100%;
+      -webkit-background-clip:text; background-clip:text; color: transparent;
+      animation: rainbow 8s linear infinite;
     }
     @keyframes rainbow{ from{background-position:0 0} to{background-position:300% 0} }
 
@@ -93,7 +76,7 @@
     nav{ border-right:4px ridge #59e; background:#0d0130; padding:14px }
     nav h3{ margin:10px 0; font-size:16px }
     .btn{
-      display:block; margin:8px 0; padding:8px 10px; border:3px outset #58f; background:#001a5e; color:#e6f3ff;
+      display:block; margin:8px 0; padding:8px 10px; border:3px outset #58f; background:#001a5e; color:#e6e6ff;
       text-transform:uppercase; font-weight:bold; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;
       cursor:pointer;
     }
@@ -125,39 +108,27 @@
       animation-play-state: paused;
     }
     .playing #bgDancer img{ animation-play-state: running; }
-    @keyframes dance-bop{
-      0%{ transform: translateY(0) rotate(0deg) }
-      25%{ transform: translateY(-8px) rotate(-1deg) }
-      50%{ transform: translateY(0) rotate(0.6deg) }
-      75%{ transform: translateY(-6px) rotate(-0.8deg) }
-      100%{ transform: translateY(0) rotate(0deg) }
-    }
-    @keyframes dance-glow{
-      0%{ filter: drop-shadow(0 0 0px rgba(0,255,234,.0)) }
-      50%{ filter: drop-shadow(0 0 14px rgba(0,255,234,.25)) }
-      100%{ filter: drop-shadow(0 0 0px rgba(0,255,234,.0)) }
-    }
 
-    /* === VINYL DASH game bits === */
-    @keyframes spinVinyl { from {transform: rotate(0)} to {transform: rotate(360deg)} }
-    .vinyl{
-      position:absolute; width:50px; height:50px; border-radius:50%;
-      border:3px solid var(--accent);
-      background: radial-gradient(circle, #000 40%, var(--accent) 41%, #000 70%);
-      cursor:pointer; animation: spinVinyl 1s linear infinite;
-    }
-
-    /* === Public Chat styles === */
     .chat-item{ background:#120036aa; border:4px groove #8bf; padding:10px; }
     .chat-head{ display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
     .chat-name{ font-weight:bold }
     .chat-time{ opacity:.8; font-size:12px }
     .chat-input{ padding:10px; border:3px inset #59e; background:#0d0130; color:#e6e6ff }
+
+    /* === PIXEL GAME container keeps crisp scaling === */
+    .pixel-wrapper{
+      position:relative; width:100%; border:4px ridge #8bf; background:#0d0130; overflow:hidden;
+      aspect-ratio: 16 / 9;
+    }
+    #pxCanvas{
+      width:100%; height:100%; image-rendering: pixelated; image-rendering: crisp-edges;
+      display:block; background:#080016;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Background dancing character (replace img path with your file) -->
+  <!-- Background dancing character -->
   <div id="bgDancer"><img src="img/dancer.png" alt="THE KID IN THE BOX — dancing"/></div>
 
   <div class="frame">
@@ -203,18 +174,16 @@
           <audio id="player" preload="auto" src="music.mp3"></audio>
           <p>check out my music it is really good <code></code>  <code></code>.</p>
           <div style="border:4px ridge #8bf; box-shadow:0 0 25px #00e0ff55; background:#0d0130; padding:6px;">
-  <iframe
-    width="100%"
-    height="315"
-    src="https://www.youtube.com/embed/iCsEXdCGPag"
-    title="THE KID IN THE BOX — Official Music Video"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-
+            <iframe
+              width="100%"
+              height="315"
+              src="https://www.youtube.com/embed/iCsEXdCGPag"
+              title="THE KID IN THE BOX — Official Music Video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
         </section>
 
         <section class="card" id="shows">
@@ -226,12 +195,19 @@
           </ul>
         </section>
 
+        <!-- === ARCADE: Pixel Blaster (in-page, no external host) === -->
         <section class="card" id="arcade">
-          <h2>🎮 VINYL DASH</h2>
-          <p>Click the spinning vinyls before time runs out! Each level gets faster.</p>
-          <button id="startGame" class="btn" type="button">Start Game</button>
-          <div id="gameArea" style="position:relative; width:100%; height:300px; border:4px ridge #8bf; background:#0d0130; overflow:hidden; margin-top:12px;"></div>
-          <p>Score: <span id="score">0</span> | Time: <span id="timer">30</span>s | Level: <span id="level">1</span></p>
+          <h2>🕹️ Pixel Blaster</h2>
+          <p>Move with <strong>A/D</strong> or <strong>←/→</strong>, shoot with <strong>SPACE</strong>, pause with <strong>P</strong>. Survive and score!</p>
+          <div class="pixel-wrapper">
+            <canvas id="pxCanvas" width="320" height="180"></canvas>
+          </div>
+          <div style="margin-top:8px; display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+            <span>Score: <span id="pxScore">0</span></span>
+            <span>Lives: <span id="pxLives">3</span></span>
+            <span>Level: <span id="pxLevel">1</span></span>
+            <button id="pxStart" class="btn" type="button">Start</button>
+          </div>
         </section>
 
         <!-- === PUBLIC CHAT (no login) === -->
@@ -273,7 +249,7 @@
   </div>
 
   <!-- Floating music control (top-right) -->
-  <button id="musicBtn" title="Play/Pause" style="position:fixed; top:14px; right:14px; z-index:9999; border:3px outset #58f; background:#001a5e; color:#e6f3ff; padding:10px 12px; font-weight:bold; text-transform:uppercase; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;">▶ Music</button>
+  <button id="musicBtn" title="Play/Pause" style="position:fixed; top:14px; right:14px; z-index:9999; border:3px outset #58f; background:#001a5e; color:#e6e6ff; padding:10px 12px; font-weight:bold; text-transform:uppercase; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;">▶ Music</button>
 
   <script>
     // Year
@@ -349,113 +325,319 @@
       });
     })();
 
-    // Cheeky 90s right-click blocker (optional)
     document.addEventListener('contextmenu', (e)=>{
       e.preventDefault();
-      alert('No stealing my pixels! (jk)\n— ALHUR');
+      alert('No stealing my pixels! (jk)\n— Harry G');
+    });
+  </script>
+
+  <!-- ===== PIXEL BLASTER — tiny in-page pixel shooter (round purple enemy bullets + YOU LOST) ===== -->
+  <script>
+  (function(){
+    const view = document.getElementById('pxCanvas');
+    const scoreEl = document.getElementById('pxScore');
+    const livesEl = document.getElementById('pxLives');
+    const levelEl = document.getElementById('pxLevel');
+    const startBtn = document.getElementById('pxStart');
+
+    const w = view.width, h = view.height;
+    const ctx = view.getContext('2d');
+
+    // ===== TUNABLES =====
+    const ONE_HIT_DEATH = true;
+    const PLAYER_SPEED   = 190;
+    const PLAYER_COOLDOWN_FRAMES = 4;
+    const ENEMY_BASE_SPEED = 12;
+    const ENEMY_FIRE_BASE = 0.010;
+    const ENEMY_BULLET_SPEED = 120;
+    const ENEMY_AIMING = 0.45;
+
+    // NEW: round bullet size
+    const ENEMY_BULLET_RADIUS = 4; // slightly bigger & round (diameter 8px)
+
+    // game state
+    let playing = false, paused = false, frame = 0, score = 0, lives = ONE_HIT_DEATH ? 1 : 3, level = 1;
+    const keys = {left:false, right:false, shoot:false};
+
+    // entities
+    const player = { x: w/2, y: h-18, vx: 0, speed: PLAYER_SPEED, cooldown: 0, blink: 0 };
+    const bullets = [];   // player bullets
+    const eBullets = [];  // enemy bullets
+    const enemies = [];
+    const stars = Array.from({length:80}, ()=>({x:Math.random()*w, y:Math.random()*h, s: Math.random()*1.5+0.5}));
+
+    function resetRound(){
+      bullets.length = 0;
+      eBullets.length = 0;
+      enemies.length = 0;
+      const count = 7 + level;
+      for(let i=0;i<count;i++){
+        enemies.push({
+          x: 20 + i* ( (w-40)/count ) + (Math.random()*6-3),
+          y: 22 + Math.random()*16,
+          vx: (Math.random()<0.5?-1:1) * (ENEMY_BASE_SPEED + level*2),
+          hp: 1,
+          cooldown: Math.floor(Math.random()*60)
+        });
+      }
+    }
+
+    function start(){
+      playing = true; paused = false;
+      score = 0; lives = ONE_HIT_DEATH ? 1 : 3; level = 1; frame = 0;
+      player.x = w/2; player.cooldown = 0; player.blink = 0;
+      resetRound();
+      startBtn.textContent = 'Playing…';
+      startBtn.disabled = true;
+      loop();
+    }
+
+    function nextLevel(){
+      level++;
+      levelEl.textContent = level;
+      resetRound();
+    }
+
+    // controls
+    window.addEventListener('keydown', (e)=>{
+      if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = true;
+      if (e.key === 'd' || e.key === 'ArrowRight') keys.right = true;
+      if (e.code === 'Space') { keys.shoot = true; e.preventDefault(); }
+      if (e.key.toLowerCase() === 'p') paused = !paused;
+    });
+    window.addEventListener('keyup', (e)=>{
+      if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = false;
+      if (e.key === 'd' || e.key === 'ArrowRight') keys.right = false;
+      if (e.code === 'Space') keys.shoot = false;
     });
 
-    // === VINYL DASH — 5-level mini game with pictures ===
-    (function(){
-      const gameArea = document.getElementById("gameArea");
-      const scoreEl = document.getElementById("score");
-      const timerEl = document.getElementById("timer");
-      const levelEl = document.getElementById("level");
-      const startBtn = document.getElementById("startGame");
+    function fire(){
+      if (player.cooldown > 0) return;
+      bullets.push({x: player.x, y: player.y-6, vy: -300});
+      player.cooldown = PLAYER_COOLDOWN_FRAMES;
+    }
 
-      // Replace these paths with your own images in /img/
-      const vinylImages = [
-        "img/desk.png",
-        "img/star.png",
-        "img/cas.png",
-        "img/vinyl.png",
-        "img/guitar.png"
-      ];
+    function enemyFire(ex, ey){
+      // aim partly toward player
+      const dx = player.x - ex;
+      const dy = (player.y - ey);
+      const len = Math.hypot(dx, dy) || 1;
+      const ax = (1-ENEMY_AIMING)*0 + ENEMY_AIMING*(dx/len);
+      const ay = (1-ENEMY_AIMING)*1 + ENEMY_AIMING*(dy/len);
+      const speed = ENEMY_BULLET_SPEED + level*10;
+      eBullets.push({ x: ex, y: ey+4, vx: ax*speed, vy: ay*speed });
+    }
 
-      let score = 0, time = 30, level = 1, playing = false;
-      let timerInterval = null, vinylInterval = null;
+    function loop(){
+      if (!playing) return;
+      requestAnimationFrame(loop);
+      if (paused) { draw(true); return; }
 
-      function createVinyl() {
-        if (!gameArea) return;
-        const img = document.createElement("img");
-        img.className = "vinyl-img";
-        img.src = vinylImages[Math.floor(Math.random()*vinylImages.length)];
+      frame++;
 
-        const size = 64;
-        img.style.width = size + "px";
-        img.style.height = size + "px";
-        img.style.left = Math.random() * (gameArea.clientWidth - size) + "px";
-        img.style.top  = Math.random() * (gameArea.clientHeight - size) + "px";
+      // update
+      player.vx = (keys.right?1:0) - (keys.left?1:0);
+      player.x += player.vx * player.speed * (1/60);
+      player.x = Math.max(8, Math.min(w-8, player.x));
 
-        gameArea.appendChild(img);
+      if (keys.shoot) fire();
+      if (player.cooldown>0) player.cooldown--;
+      if (player.blink>0) player.blink--;
 
-        img.addEventListener("click", () => {
-          score += 10;
-          scoreEl.textContent = String(score);
-          img.remove();
-        });
-
-        setTimeout(() => img.remove(), 1800);
+      bullets.forEach(b=> b.y += b.vy * (1/60));
+      for (let i=bullets.length-1;i>=0;i--){
+        if (bullets[i].y < -6) bullets.splice(i,1);
       }
 
-      function clearLoops(){
-        if (vinylInterval) { clearInterval(vinylInterval); vinylInterval = null; }
-        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-      }
+      // enemies move + shoot
+      enemies.forEach(e=>{
+        e.x += e.vx * (1/60);
+        if (e.x < 8 || e.x > w-8) e.vx *= -1;
+        e.y += Math.sin((frame+e.x)*0.03)*0.1;
 
-      function setupLevelLoops(){
-        const spawnMs = Math.max(250, 1000 - level * 150); // faster each level
-        vinylInterval = setInterval(createVinyl, spawnMs);
-        timerInterval = setInterval(() => {
-          time--;
-          timerEl.textContent = String(time);
-          if (time <= 0) nextLevel();
-        }, 1000);
-      }
+        if (e.cooldown > 0) e.cooldown--;
+        const aligned = Math.abs(e.x - player.x) < 10 ? 0.02 : 0;
+        if (e.cooldown===0 && Math.random() < (ENEMY_FIRE_BASE + level*0.002 + aligned)){
+          enemyFire(e.x, e.y);
+          e.cooldown = 40 + Math.floor(Math.random()*40) - Math.min(level*2, 20);
+          if (e.cooldown < 10) e.cooldown = 10;
+        }
+      });
 
-      function startGame() {
-        if (playing) return;
-        playing = true;
-        score = 0; level = 1; time = 30;
-        scoreEl.textContent = "0";
-        levelEl.textContent = "1";
-        timerEl.textContent = "30";
-        gameArea.innerHTML = "";
-        startBtn.textContent = "Playing...";
-        startBtn.disabled = true;
-
-        clearLoops();
-        setupLevelLoops();
-      }
-
-      function nextLevel() {
-        clearLoops();
-        gameArea.innerHTML = "";
-
-        if (level < 5) {
-          level++;
-          levelEl.textContent = String(level);
-          time = Math.max(10, 30 - (level * 3));
-          timerEl.textContent = String(time);
-          startBtn.textContent = "Level " + level + " — Start";
-          startBtn.disabled = false;
-          playing = false;
-          alert("Level " + (level - 1) + " complete! Next one gets harder!");
-        } else {
-          alert("🎉 You finished all levels! Final Score: " + score);
-          startBtn.textContent = "Restart Game";
-          startBtn.disabled = false;
-          playing = false;
-          score = 0; level = 1; time = 30;
-          scoreEl.textContent = "0"; levelEl.textContent = "1"; timerEl.textContent = "30";
+      // enemy bullets update
+      eBullets.forEach(b=>{
+        b.x += b.vx * (1/60);
+        b.y += b.vy * (1/60);
+      });
+      // cull off-screen (radius-aware)
+      for (let i=eBullets.length-1;i>=0;i--){
+        const b = eBullets[i];
+        if (b.y > h + ENEMY_BULLET_RADIUS || b.y < -ENEMY_BULLET_RADIUS ||
+            b.x > w + ENEMY_BULLET_RADIUS || b.x < -ENEMY_BULLET_RADIUS){
+          eBullets.splice(i,1);
         }
       }
 
-      startBtn.addEventListener("click", ()=>{
-        if (!playing) startGame();
-        else nextLevel();
+      // bullets vs enemies
+      for (let i=enemies.length-1;i>=0;i--){
+        const e = enemies[i];
+        if (e.y >= h-24){
+          enemies.splice(i,1);
+          damage();
+          continue;
+        }
+        for (let j=bullets.length-1;j>=0;j--){
+          const b = bullets[j];
+          if (Math.abs(b.x - e.x) < 6 && Math.abs(b.y - e.y) < 6){
+            bullets.splice(j,1);
+            e.hp -= 1;
+            score += 10;
+            scoreEl.textContent = score;
+            if (e.hp <= 0){
+              enemies.splice(i,1);
+            }
+            break;
+          }
+        }
+      }
+
+      // enemy bullets vs player (circle vs AABB)
+      for (let i=eBullets.length-1;i>=0;i--){
+        const b = eBullets[i];
+        // ship hitbox ~6x10 centered on player
+        const shipHalfW = 3, shipHalfH = 5;
+        // clamp bullet center to ship box, then distance
+        const nx = Math.max(player.x - shipHalfW, Math.min(b.x, player.x + shipHalfW));
+        const ny = Math.max(player.y - shipHalfH, Math.min(b.y, player.y + shipHalfH));
+        const dx = b.x - nx, dy = b.y - ny;
+        if (dx*dx + dy*dy <= ENEMY_BULLET_RADIUS*ENEMY_BULLET_RADIUS){
+          eBullets.splice(i,1);
+          damage(true);
+          break;
+        }
+      }
+
+      // level clear
+      if (enemies.length === 0){
+        score += 100;
+        scoreEl.textContent = score;
+        nextLevel();
+      }
+
+      // starfield
+      stars.forEach(s=>{
+        s.y += s.s * 0.6;
+        if (s.y > h) { s.y = -2; s.x = Math.random()*w; }
       });
-    })();
+
+      draw(false);
+    }
+
+    function damage(fromBullet=false){
+      if (ONE_HIT_DEATH || fromBullet){
+        lives = 0;
+        livesEl.textContent = lives;
+        return gameOver('YOU LOST!');
+      }
+      if (player.blink>0) return;
+      lives--;
+      livesEl.textContent = lives;
+      if (lives <= 0){
+        gameOver('YOU LOST!');
+      }else{
+        player.x = w/2;
+        player.blink = 90; // i-frames
+      }
+    }
+
+    function gameOver(msg){
+      playing = false;
+      startBtn.textContent = 'Restart';
+      startBtn.disabled = false;
+
+      // darken + big YOU LOST!
+      ctx.fillStyle = 'rgba(0,0,0,.6)';
+      ctx.fillRect(0,0,w,h);
+
+      ctx.fillStyle = '#d24dff'; // purple
+      ctx.font = '20px VT323, monospace';
+      ctx.fillText(msg || 'YOU LOST!', 96, 72);
+
+      ctx.fillStyle = '#e6e6ff';
+      ctx.font = '16px VT323, monospace';
+      ctx.fillText('GAME OVER', 110, 94);
+      ctx.fillText('Score: '+score, 118, 112);
+      ctx.fillText('Press Start to play again', 54, 134);
+    }
+
+    function draw(pausedOverlay){
+      // bg
+      ctx.fillStyle = '#080016';
+      ctx.fillRect(0,0,w,h);
+
+      // stars
+      ctx.fillStyle = '#7cf9ff';
+      stars.forEach(s=> ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 1, 1));
+
+      // player (blink in multi-life mode)
+      if (!(player.blink>0 && Math.floor(frame/6)%2===0)){
+        ctx.fillStyle = '#ff00d4';
+        const px = Math.floor(player.x), py = Math.floor(player.y);
+        const ship = [
+          [0,1,0],
+          [1,1,1],
+          [0,1,0],
+          [1,1,1],
+          [0,1,0],
+        ];
+        for(let r=0;r<ship.length;r++){
+          for(let c=0;c<ship[r].length;c++){
+            if (ship[r][c]) ctx.fillRect(px-3+c*2, py-5+r*2, 2, 2);
+          }
+        }
+      }
+
+      // player bullets
+      ctx.fillStyle = '#fffd37';
+      bullets.forEach(b=> ctx.fillRect(Math.floor(b.x)-1, Math.floor(b.y)-3, 2, 3));
+
+      // enemies
+      enemies.forEach(e=>{
+        const ex = Math.floor(e.x), ey = Math.floor(e.y);
+        ctx.fillStyle = '#00ffea';
+        ctx.fillRect(ex-4, ey-3, 8, 6);
+        ctx.fillStyle = '#080016';
+        ctx.fillRect(ex-2, ey-1, 1, 1);
+        ctx.fillRect(ex+1, ey-1, 1, 1);
+      });
+
+      // enemy bullets — ROUND + PURPLE
+      ctx.fillStyle = '#d24dff';
+      eBullets.forEach(b=>{
+        ctx.beginPath();
+        ctx.arc(b.x|0, b.y|0, ENEMY_BULLET_RADIUS, 0, Math.PI*2);
+        ctx.fill();
+      });
+
+      // paused overlay
+      if (pausedOverlay){
+        ctx.fillStyle = 'rgba(0,0,0,.5)';
+        ctx.fillRect(0,0,w,h);
+        ctx.fillStyle = '#e6e6ff';
+        ctx.font = '16px VT323, monospace';
+        ctx.fillText('PAUSED (press P)', 96, 92);
+      }
+    }
+
+    startBtn.addEventListener('click', ()=>{
+      if (!playing) start();
+    });
+
+    // HUD init
+    scoreEl.textContent = score;
+    livesEl.textContent = lives;
+    levelEl.textContent = level;
+  })();
   </script>
 
   <!-- ===== Firebase (no-auth public chat) ===== -->
