@@ -124,7 +124,7 @@
       100%{filter:contrast(110%) saturate(110%) drop-shadow(0 0 0 rgba(210,77,255,0))}
     }
 
-    /* === WEIRDCORE FLOATING EYES (added) === */
+    /* === WEIRDCORE FLOATING EYES (added earlier) === */
     #weirdLayer{ position:fixed; inset:0; pointer-events:none; z-index:1; }
     .eye{
       position:absolute; width:80px; height:50px; opacity:.6;
@@ -132,17 +132,13 @@
       filter: drop-shadow(0 0 6px rgba(255,0,212,.25));
       animation: floaty 10s ease-in-out infinite;
     }
-    .eye .sclera{
-      position:absolute; inset:0; border-radius:50% / 45%;
-      background:
-        radial-gradient(circle at 30% 40%, rgba(255,255,255,.95) 0 30%, rgba(255,255,255,.8) 31% 70%, rgba(180,180,255,.35) 71% 100%);
+    .eye .sclera{ position:absolute; inset:0; border-radius:50% / 45%; background:
+      radial-gradient(circle at 30% 40%, rgba(255,255,255,.95) 0 30%, rgba(255,255,255,.8) 31% 70%, rgba(180,180,255,.35) 71% 100%);
       border:2px solid rgba(255,255,255,.6);
     }
     .eye .pupil{
-      --x:0px; --y:0px;
-      position:absolute; width:18px; height:18px; border-radius:50%;
-      top:calc(50% - 9px); left:calc(50% - 9px);
-      transform: translate(var(--x), var(--y));
+      --x:0px; --y:0px; position:absolute; width:18px; height:18px; border-radius:50%;
+      top:calc(50% - 9px); left:calc(50% - 9px); transform: translate(var(--x), var(--y));
       background:
         radial-gradient(circle at 35% 35%, #666 0 20%, #000 21% 60%, #0000 61%),
         radial-gradient(circle at 50% 50%, #000 0 70%, #0000 71%);
@@ -153,75 +149,32 @@
     }
 
     /* === PIXEL GAME container keeps crisp scaling === */
-    .pixel-wrapper{
-      position:relative; width:100%; border:4px ridge #8bf; background:#0d0130; overflow:hidden;
-      aspect-ratio: 16 / 9;
-    }
-    #pxCanvas{
-      width:100%; height:100%; image-rendering: pixelated; image-rendering: crisp-edges;
-      display:block; background:#080016;
-    }
+    .pixel-wrapper{ position:relative; width:100%; border:4px ridge #8bf; background:#0d0130; overflow:hidden; aspect-ratio:16/9; }
+    #pxCanvas{ width:100%; height:100%; image-rendering:pixelated; image-rendering:crisp-edges; display:block; background:#080016; }
 
-    /* === Public Chat theme match (added) === */
+    /* === Public Chat theme match (added earlier) === */
     #public-chat { --pc-bg:#0d0130; --pc-fg:#e6e6ff; --pc-border:#59e; --pc-shadow:#00e0ff55; }
-
-    #public-chat input.chat-input,
-    #public-chat textarea.chat-input,
-    #public-chat input[type="text"],
-    #public-chat textarea{
-      background: var(--pc-bg) !important;
-      color: var(--pc-fg) !important;
-      border: 3px inset var(--pc-border);
-      box-shadow: inset 0 0 10px #00e0ff22;
-      font-family: 'VT323', monospace;
-      font-size: 16px;
-      outline: none;
-      border-radius: 0;
-      caret-color: var(--pc-fg);
+    #public-chat input.chat-input, #public-chat textarea.chat-input, #public-chat input[type="text"], #public-chat textarea{
+      background:var(--pc-bg)!important; color:var(--pc-fg)!important; border:3px inset var(--pc-border);
+      box-shadow:inset 0 0 10px #00e0ff22; font-family:'VT323', monospace; font-size:16px; outline:none; border-radius:0; caret-color:var(--pc-fg);
     }
-    #public-chat input.chat-input:focus,
-    #public-chat textarea.chat-input:focus{
-      box-shadow: inset 0 0 10px #00e0ff55, 0 0 6px #00e0ff55;
+    #public-chat input.chat-input:focus, #public-chat textarea.chat-input:focus{
+      box-shadow:inset 0 0 10px #00e0ff55, 0 0 6px #00e0ff55;
     }
-
-    #public-chat ::placeholder { color: #c8d0ffbb; }
-
+    #public-chat ::placeholder{ color:#c8d0ffbb; }
     #public-chat #pcSend.btn{
-      border: 3px outset #58f !important;
-      background: #001a5e !important;
-      color: #e6e6ff !important;
-      text-transform: uppercase;
-      font-weight: bold;
-      box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px var(--pc-shadow);
+      border:3px outset #58f!important; background:#001a5e!important; color:#e6e6ff!important;
+      text-transform:uppercase; font-weight:bold; box-shadow:inset 0 0 10px #00e0ff44, 0 0 6px var(--pc-shadow);
     }
-    #public-chat #pcSend.btn:hover{ filter: brightness(1.15); border-style: inset; }
-
-    #pcFeed{
-      background:#0d0130;
-      color:#e6e6ff;
-      border:4px ridge #8bf;
-      font-family:'VT323', monospace;
-      line-height:1.15;
-    }
-
-    /* Chat items look like terminal logs */
-    #public-chat .chat-item{
-      background:#0b0022;
-      border:3px groove #8bf;
-      padding:10px;
-      font-family:'VT323', monospace;
-      white-space:pre-wrap;
-    }
+    #public-chat #pcSend.btn:hover{ filter:brightness(1.15); border-style:inset; }
+    #pcFeed{ background:#0d0130; color:#e6e6ff; border:4px ridge #8bf; font-family:'VT323', monospace; line-height:1.15; }
+    #public-chat .chat-item{ background:#0b0022; border:3px groove #8bf; padding:10px; font-family:'VT323', monospace; white-space:pre-wrap; }
     #public-chat .chat-head{ gap:8px; align-items:baseline; flex-wrap:wrap; }
     #public-chat .chat-name{ color:#fffd37; }
     #public-chat .chat-time{ opacity:.8; font-size:12px }
-
-    /* Retro scrollbar (WebKit) */
     #pcFeed::-webkit-scrollbar{ width:12px }
     #pcFeed::-webkit-scrollbar-track{ background:#060015; border-left:2px ridge #59e }
-    #pcFeed::-webkit-scrollbar-thumb{
-      background:#001a5e; border:3px outset #58f; box-shadow:0 0 10px #00e0ff44;
-    }
+    #pcFeed::-webkit-scrollbar-thumb{ background:#001a5e; border:3px outset #58f; box-shadow:0 0 10px #00e0ff44; }
   </style>
 </head>
 
@@ -352,6 +305,10 @@
   <!-- Floating music control (top-right) -->
   <button id="musicBtn" title="Play/Pause" style="position:fixed; top:14px; right:14px; z-index:9999; border:3px outset #58f; background:#001a5e; color:#e6e6ff; padding:10px 12px; font-weight:bold; text-transform:uppercase; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;">▶ Music</button>
 
+  <!-- NEW: volume slider -->
+  <input id="volCtrl" type="range" min="0" max="100" value="35"
+    title="Volume" style="position:fixed; top:14px; right:110px; z-index:9999; width:130px; accent-color:#58f">
+
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -368,6 +325,24 @@
     // Music autoplay (after first interaction) + button control
     const player = document.getElementById('player');
     const btn = document.getElementById('musicBtn');
+
+    // NEW: Volume control with memory + quieter default
+    const volCtrl = document.getElementById('volCtrl');
+   const savedVol = Number(localStorage.getItem('site-vol'));
+if (!Number.isNaN(savedVol)) {
+  player.volume = Math.min(1, Math.max(0, savedVol));
+  if (volCtrl) volCtrl.value = Math.round(player.volume * 100);
+} else {
+  player.volume = 0.5;             // start at 50%
+  if (volCtrl) volCtrl.value = 50;
+}
+
+    volCtrl?.addEventListener('input', () => {
+      const v = volCtrl.value / 100;
+      player.volume = v;
+      localStorage.setItem('site-vol', String(v));
+    });
+
     let interacted = false;
 
     function playPause(){
@@ -432,7 +407,7 @@
     });
   </script>
 
-  <!-- ===== PIXEL BLASTER — tiny in-page pixel shooter (round purple enemy bullets + YOU LOST) ===== -->
+  <!-- ===== PIXEL BLASTER — tiny in-page pixel shooter ===== -->
   <script>
   (function(){
     const view = document.getElementById('pxCanvas');
@@ -454,7 +429,7 @@
     const ENEMY_AIMING = 0.45;
 
     // NEW: round bullet size
-    const ENEMY_BULLET_RADIUS = 4; // slightly bigger & round (diameter 8px)
+    const ENEMY_BULLET_RADIUS = 4;
 
     // game state
     let playing = false, paused = false, frame = 0, score = 0, lives = ONE_HIT_DEATH ? 1 : 3, level = 1;
@@ -468,13 +443,11 @@
     const stars = Array.from({length:80}, ()=>({x:Math.random()*w, y:Math.random()*h, s: Math.random()*1.5+0.5}));
 
     function resetRound(){
-      bullets.length = 0;
-      eBullets.length = 0;
-      enemies.length = 0;
+      bullets.length = 0; eBullets.length = 0; enemies.length = 0;
       const count = 7 + level;
       for(let i=0;i<count;i++){
         enemies.push({
-          x: 20 + i* ( (w-40)/count ) + (Math.random()*6-3),
+          x: 20 + i*((w-40)/count) + (Math.random()*6-3),
           y: 22 + Math.random()*16,
           vx: (Math.random()<0.5?-1:1) * (ENEMY_BASE_SPEED + level*2),
           hp: 1,
@@ -494,9 +467,7 @@
     }
 
     function nextLevel(){
-      level++;
-      levelEl.textContent = level;
-      resetRound();
+      level++; levelEl.textContent = level; resetRound();
     }
 
     // controls
@@ -519,7 +490,6 @@
     }
 
     function enemyFire(ex, ey){
-      // aim partly toward player
       const dx = player.x - ex;
       const dy = (player.y - ey);
       const len = Math.hypot(dx, dy) || 1;
@@ -538,21 +508,17 @@
 
       // update
       player.vx = (keys.right?1:0) - (keys.left?1:0);
-      player.x += player.vx * player.speed * (1/60);
-      player.x = Math.max(8, Math.min(w-8, player.x));
+      player.x = Math.max(8, Math.min(w-8, player.x + player.vx*PLAYER_SPEED*(1/60)));
 
       if (keys.shoot) fire();
       if (player.cooldown>0) player.cooldown--;
       if (player.blink>0) player.blink--;
 
-      bullets.forEach(b=> b.y += b.vy * (1/60));
-      for (let i=bullets.length-1;i>=0;i--){
-        if (bullets[i].y < -6) bullets.splice(i,1);
-      }
+      bullets.forEach(b=> b.y += b.vy*(1/60));
+      for (let i=bullets.length-1;i>=0;i--) if (bullets[i].y < -6) bullets.splice(i,1);
 
-      // enemies move + shoot
       enemies.forEach(e=>{
-        e.x += e.vx * (1/60);
+        e.x += e.vx*(1/60);
         if (e.x < 8 || e.x > w-8) e.vx *= -1;
         e.y += Math.sin((frame+e.x)*0.03)*0.1;
 
@@ -565,189 +531,85 @@
         }
       });
 
-      // enemy bullets update
-      eBullets.forEach(b=>{
-        b.x += b.vx * (1/60);
-        b.y += b.vy * (1/60);
-      });
-      // cull off-screen (radius-aware)
+      eBullets.forEach(b=>{ b.x += b.vx*(1/60); b.y += b.vy*(1/60); });
       for (let i=eBullets.length-1;i>=0;i--){
         const b = eBullets[i];
-        if (b.y > h + ENEMY_BULLET_RADIUS || b.y < -ENEMY_BULLET_RADIUS ||
-            b.x > w + ENEMY_BULLET_RADIUS || b.x < -ENEMY_BULLET_RADIUS){
-          eBullets.splice(i,1);
-        }
+        if (b.y > h+4 || b.y < -4 || b.x > w+4 || b.x < -4) eBullets.splice(i,1);
       }
 
-      // bullets vs enemies
       for (let i=enemies.length-1;i>=0;i--){
-        const e = enemies[i];
-        if (e.y >= h-24){
-          enemies.splice(i,1);
-          damage();
-          continue;
-        }
+        const e=enemies[i];
+        if (e.y >= h-24){ enemies.splice(i,1); damage(); continue; }
         for (let j=bullets.length-1;j>=0;j--){
-          const b = bullets[j];
-          if (Math.abs(b.x - e.x) < 6 && Math.abs(b.y - e.y) < 6){
-            bullets.splice(j,1);
-            e.hp -= 1;
-            score += 10;
-            scoreEl.textContent = score;
-            if (e.hp <= 0){
-              enemies.splice(i,1);
-            }
+          const b=bullets[j];
+          if (Math.abs(b.x-e.x)<6 && Math.abs(b.y-e.y)<6){
+            bullets.splice(j,1); e.hp-=1; score+=10; scoreEl.textContent=score;
+            if (e.hp<=0) enemies.splice(i,1);
             break;
           }
         }
       }
 
-      // enemy bullets vs player (circle vs AABB)
       for (let i=eBullets.length-1;i>=0;i--){
-        const b = eBullets[i];
-        // ship hitbox ~6x10 centered on player
-        const shipHalfW = 3, shipHalfH = 5;
-        // clamp bullet center to ship box, then distance
-        const nx = Math.max(player.x - shipHalfW, Math.min(b.x, player.x + shipHalfW));
-        const ny = Math.max(player.y - shipHalfH, Math.min(b.y, player.y + shipHalfH));
-        const dx = b.x - nx, dy = b.y - ny;
-        if (dx*dx + dy*dy <= ENEMY_BULLET_RADIUS*ENEMY_BULLET_RADIUS){
-          eBullets.splice(i,1);
-          damage(true);
-          break;
-        }
+        const b=eBullets[i], shipHalfW=3, shipHalfH=5;
+        const nx=Math.max(player.x-shipHalfW, Math.min(b.x, player.x+shipHalfW));
+        const ny=Math.max(player.y-shipHalfH, Math.min(b.y, player.y+shipHalfH));
+        const dx=b.x-nx, dy=b.y-ny;
+        if (dx*dx+dy*dy <= 16){ eBullets.splice(i,1); damage(true); break; }
       }
 
-      // level clear
-      if (enemies.length === 0){
-        score += 100;
-        scoreEl.textContent = score;
-        nextLevel();
-      }
+      if (enemies.length===0){ score+=100; scoreEl.textContent=score; nextLevel(); }
 
       // starfield
-      stars.forEach(s=>{
-        s.y += s.s * 0.6;
-        if (s.y > h) { s.y = -2; s.x = Math.random()*w; }
-      });
+      stars.forEach(s=>{ s.y += s.s*0.6; if (s.y>h){ s.y=-2; s.x=Math.random()*w; } });
 
       draw(false);
     }
 
     function damage(fromBullet=false){
       if (ONE_HIT_DEATH || fromBullet){
-        lives = 0;
-        livesEl.textContent = lives;
-        return gameOver('YOU LOST!');
+        lives = 0; livesEl.textContent = lives; return gameOver('YOU LOST!');
       }
       if (player.blink>0) return;
-      lives--;
-      livesEl.textContent = lives;
-      if (lives <= 0){
-        gameOver('YOU LOST!');
-      }else{
-        player.x = w/2;
-        player.blink = 90; // i-frames
-      }
+      lives--; livesEl.textContent=lives;
+      if (lives<=0){ gameOver('YOU LOST!'); }
+      else { player.x=w/2; player.blink=90; }
     }
 
     function gameOver(msg){
-      playing = false;
-      startBtn.textContent = 'Restart';
-      startBtn.disabled = false;
-
-      // darken + big YOU LOST!
-      ctx.fillStyle = 'rgba(0,0,0,.6)';
-      ctx.fillRect(0,0,w,h);
-
-      ctx.fillStyle = '#d24dff'; // purple
-      ctx.font = '20px VT323, monospace';
-      ctx.fillText(msg || 'YOU LOST!', 96, 72);
-
-      ctx.fillStyle = '#e6e6ff';
-      ctx.font = '16px VT323, monospace';
-      ctx.fillText('GAME OVER', 110, 94);
-      ctx.fillText('Score: '+score, 118, 112);
-      ctx.fillText('Press Start to play again', 54, 134);
+      playing=false; startBtn.textContent='Restart'; startBtn.disabled=false;
+      ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='#d24dff'; ctx.font='20px VT323, monospace'; ctx.fillText(msg||'YOU LOST!',96,72);
+      ctx.fillStyle='#e6e6ff'; ctx.font='16px VT323, monospace';
+      ctx.fillText('GAME OVER',110,94); ctx.fillText('Score: '+score,118,112); ctx.fillText('Press Start to play again',54,134);
     }
 
     function draw(pausedOverlay){
-      // bg
-      ctx.fillStyle = '#080016';
-      ctx.fillRect(0,0,w,h);
-
-      // stars
-      ctx.fillStyle = '#7cf9ff';
-      stars.forEach(s=> ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 1, 1));
-
-      // player (blink in multi-life mode)
+      ctx.fillStyle='#080016'; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='#7cf9ff'; stars.forEach(s=> ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 1, 1));
       if (!(player.blink>0 && Math.floor(frame/6)%2===0)){
-        ctx.fillStyle = '#ff00d4';
-        const px = Math.floor(player.x), py = Math.floor(player.y);
-        const ship = [
-          [0,1,0],
-          [1,1,1],
-          [0,1,0],
-          [1,1,1],
-          [0,1,0],
-        ];
-        for(let r=0;r<ship.length;r++){
-          for(let c=0;c<ship[r].length;c++){
-            if (ship[r][c]) ctx.fillRect(px-3+c*2, py-5+r*2, 2, 2);
-          }
-        }
+        ctx.fillStyle='#ff00d4';
+        const px=Math.floor(player.x), py=Math.floor(player.y);
+        const ship=[[0,1,0],[1,1,1],[0,1,0],[1,1,1],[0,1,0]];
+        for(let r=0;r<ship.length;r++) for(let c=0;c<ship[r].length;c++) if (ship[r][c]) ctx.fillRect(px-3+c*2, py-5+r*2, 2, 2);
       }
-
-      // player bullets
-      ctx.fillStyle = '#fffd37';
-      bullets.forEach(b=> ctx.fillRect(Math.floor(b.x)-1, Math.floor(b.y)-3, 2, 3));
-
-      // enemies
-      enemies.forEach(e=>{
-        const ex = Math.floor(e.x), ey = Math.floor(e.y);
-        ctx.fillStyle = '#00ffea';
-        ctx.fillRect(ex-4, ey-3, 8, 6);
-        ctx.fillStyle = '#080016';
-        ctx.fillRect(ex-2, ey-1, 1, 1);
-        ctx.fillRect(ex+1, ey-1, 1, 1);
-      });
-
-      // enemy bullets — ROUND + PURPLE
-      ctx.fillStyle = '#d24dff';
-      eBullets.forEach(b=>{
-        ctx.beginPath();
-        ctx.arc(b.x|0, b.y|0, ENEMY_BULLET_RADIUS, 0, Math.PI*2);
-        ctx.fill();
-      });
-
-      // paused overlay
-      if (pausedOverlay){
-        ctx.fillStyle = 'rgba(0,0,0,.5)';
-        ctx.fillRect(0,0,w,h);
-        ctx.fillStyle = '#e6e6ff';
-        ctx.font = '16px VT323, monospace';
-        ctx.fillText('PAUSED (press P)', 96, 92);
-      }
+      ctx.fillStyle='#fffd37'; bullets.forEach(b=> ctx.fillRect(Math.floor(b.x)-1, Math.floor(b.y)-3, 2, 3));
+      enemies.forEach(e=>{ const ex=Math.floor(e.x), ey=Math.floor(e.y); ctx.fillStyle='#00ffea'; ctx.fillRect(ex-4,ey-3,8,6); ctx.fillStyle='#080016'; ctx.fillRect(ex-2,ey-1,1,1); ctx.fillRect(ex+1,ey-1,1,1); });
+      ctx.fillStyle='#d24dff'; eBullets.forEach(b=>{ ctx.beginPath(); ctx.arc(b.x|0, b.y|0, 4, 0, Math.PI*2); ctx.fill(); });
+      if (pausedOverlay){ ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#e6e6ff'; ctx.font='16px VT323, monospace'; ctx.fillText('PAUSED (press P)',96,92); }
     }
 
-    startBtn.addEventListener('click', ()=>{
-      if (!playing) start();
-    });
+    startBtn.addEventListener('click', ()=>{ if (!playing) start(); });
 
-    // HUD init
-    scoreEl.textContent = score;
-    livesEl.textContent = lives;
-    levelEl.textContent = level;
+    scoreEl.textContent=score; livesEl.textContent=lives; levelEl.textContent=level;
   })();
   </script>
 
-  <!-- ===== Floating weird eyes (added) ===== -->
+  <!-- ===== Floating weird eyes ===== -->
   <script>
     (function(){
       const layer = document.getElementById('weirdLayer');
-      if(!layer){
-        const l = document.createElement('div'); l.id='weirdLayer'; document.body.prepend(l);
-      }
+      if(!layer){ const l=document.createElement('div'); l.id='weirdLayer'; document.body.prepend(l); }
       const host = document.getElementById('weirdLayer');
       const COUNT = 10; // how many eyes
       const eyes = [];
@@ -759,10 +621,8 @@
           eye.style.top  = (Math.random()*100)+'%';
           eye.style.setProperty('--rot', (Math.random()*8-4)+'deg');
           eye.style.animationDelay = (Math.random()*4)+'s';
-
           const scl=document.createElement('div'); scl.className='sclera';
           const pup=document.createElement('div'); pup.className='pupil';
-
           eye.appendChild(scl); eye.appendChild(pup);
           host.appendChild(eye);
           eyes.push({eye, pup});
@@ -776,7 +636,7 @@
           const r = eye.getBoundingClientRect();
           const cx = r.left + r.width/2, cy = r.top + r.height/2;
           const dx = mx - cx, dy = my - cy;
-          const mag = Math.min(10, Math.hypot(dx,dy)/10); // clamp
+          const mag = Math.min(10, Math.hypot(dx,dy)/10);
           const a = Math.atan2(dy,dx);
           pup.style.setProperty('--x', (Math.cos(a)*mag)+'px');
           pup.style.setProperty('--y', (Math.sin(a)*mag)+'px');
@@ -800,64 +660,43 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const pcDb = firebase.firestore();
 
-    // Elements
     const pcName = document.getElementById('pcName');
     const pcText = document.getElementById('pcText');
     const pcSend = document.getElementById('pcSend');
     const pcFeed = document.getElementById('pcFeed');
     const pcHint = document.getElementById('pcHint');
 
-    // Persist nickname locally
     pcName.value = localStorage.getItem('public-chat-name') || '';
     pcName.addEventListener('input', () => localStorage.setItem('public-chat-name', pcName.value));
 
-    // Simple cooldown (15s)
-    function pcCanPost(){
-      const last = Number(localStorage.getItem('public-chat-last') || 0);
-      return (Date.now() - last) > 15000;
-    }
+    function pcCanPost(){ const last = Number(localStorage.getItem('public-chat-last') || 0); return (Date.now() - last) > 15000; }
     function pcMarkPosted(){ localStorage.setItem('public-chat-last', Date.now()); }
 
-    // Render message
     function pcRender(d){
-      const wrap = document.createElement('div');
-      wrap.className = 'chat-item';
-
+      const wrap = document.createElement('div'); wrap.className = 'chat-item';
       const head = document.createElement('div'); head.className = 'chat-head';
       const name = document.createElement('span'); name.className = 'chat-name'; name.textContent = d.name || 'Anon';
       const time = document.createElement('span'); time.className = 'chat-time';
       const t = d.createdAt?.toDate ? d.createdAt.toDate() : new Date();
       time.textContent = '• ' + t.toLocaleString();
-
       head.appendChild(name); head.appendChild(time);
-
-      const body = document.createElement('p'); body.style.margin='6px 0 0';
-      body.textContent = d.text || '';
-
+      const body = document.createElement('p'); body.style.margin='6px 0 0'; body.textContent = d.text || '';
       wrap.appendChild(head); wrap.appendChild(body);
       return wrap;
     }
 
-    // Live feed
     pcDb.collection('publicChat').orderBy('createdAt','desc').limit(100)
       .onSnapshot(snap=>{
         pcFeed.innerHTML = '';
         snap.forEach(doc=> pcFeed.appendChild( pcRender(doc.data()) ));
       });
 
-    // Post
     pcSend.addEventListener('click', async ()=>{
       const name = pcName.value.trim().slice(0,24);
       const text = pcText.value.trim().slice(0,300);
-
       if (!name || !text){ pcHint.textContent = 'Please enter a name and a message.'; return; }
       if (!pcCanPost()){ pcHint.textContent = 'You can post again in a few seconds…'; return; }
-
-      await pcDb.collection('publicChat').add({
-        name, text,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
+      await pcDb.collection('publicChat').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
       pcText.value = '';
       pcMarkPosted();
       pcHint.textContent = 'Sent ✔';
