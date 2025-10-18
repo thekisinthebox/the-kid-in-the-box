@@ -5,22 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>THE KID IN THE BOX</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
-
   <meta name="description" content="The kid in the box "/>
-  <link rel="preload" as="audio" href="music.mp3" />
-  <!-- Pixel fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
 
   <style>
+    /* === Animated lava GIF background === */
+#lavaBg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;                 /* behind eyes/dancer and the frame */
+  pointer-events: none;
+  background: url('lava.gif') center / cover no-repeat;
+  opacity: .18;               /* tweak to taste: .12–.28 works well */
+  mix-blend-mode: screen;     /* try 'overlay' or 'soft-light' if you prefer */
+  image-rendering: pixelated; /* matches your site’s chunky vibe */
+}
+@media (max-width: 780px){
+  #lavaBg{ opacity: .14; }    /* a bit subtler on mobile */
+}
+
     /* === 90s VIBES CORE === */
-    :root{
-      --primary: #00ffea;
-      --accent: #ff00d4;
-      --dark: #0a0020;
-      --panel: #14003a;
-      --lite: #e6e6ff;
-      --link: #00e0ff;
-    }
+    :root{ --primary:#00ffea; --accent:#ff00d4; --dark:#0a0020; --panel:#14003a; --lite:#e6e6ff; --link:#00e0ff; }
     html,body{height:100%}
     body{
       margin:0; color:var(--lite); background:#0b0022;
@@ -31,15 +36,11 @@
         repeating-linear-gradient(45deg, rgba(255,0,255,.05) 0 4px, rgba(0,255,255,.05) 4px 8px),
         radial-gradient(ellipse at bottom, #0b0022 0%, #060015 70%, #02000a 100%);
       image-rendering: pixelated;
-      font-family: 'VT323', 'Pixel', monospace, system-ui, sans-serif;
-      -webkit-font-smoothing: none; text-rendering: optimizeSpeed; font-smooth: never;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="16,2 19,11 29,11 21,17 24,26 16,20 8,26 11,17 3,11 13,11" fill="%23ff00d4" stroke="%2300ffea" stroke-width="2"/></svg>') 16 2, auto;
+      font-family:'VT323','Pixel',monospace,system-ui,sans-serif;
+      -webkit-font-smoothing:none; text-rendering:optimizeSpeed; font-smooth:never;
+      cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="16,2 19,11 29,11 21,17 24,26 16,20 8,26 11,17 3,11 13,11" fill="%23ff00d4" stroke="%2300ffea" stroke-width="2"/></svg>') 16 2, auto;
     }
-    body::after{
-      content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
-      background-image: linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px);
-      background-size: 100% 3px; mix-blend-mode: overlay; opacity:.6;
-    }
+    body::after{content:""; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px); background-size:100% 3px; mix-blend-mode:overlay; opacity:.6;}
     body::before{
       content:""; position:fixed; inset:-10%; pointer-events:none; z-index:0;
       background:
@@ -48,67 +49,45 @@
         radial-gradient(circle at 40% 80%, rgba(255,255,255,.6) 0 1px, transparent 2px);
       animation: drift 30s linear infinite;
     }
-    @keyframes drift{ 0%{transform:translateY(0)} 100%{transform:translateY(-20px)} }
+    @keyframes drift{0%{transform:translateY(0)}100%{transform:translateY(-20px)}}
 
-    a{color:var(--link); text-decoration: none}
+    a{color:var(--link); text-decoration:none}
     a:hover{color:#fff; text-shadow:0 0 6px var(--link)}
 
-    .frame{
-      max-width: 980px; margin: 24px auto; border: 4px ridge #9cf; padding: 0;
-      box-shadow: 0 0 40px #00e0ff55; background: linear-gradient(180deg, #14003a 0, #0a0020 100%);
-      position:relative; z-index:2;
-    }
-    header{ position:relative; padding: 20px 14px; text-align:center; border-bottom: 3px groove #b6f; }
+    .frame{max-width:980px; margin:24px auto; border:4px ridge #9cf; padding:0; box-shadow:0 0 40px #00e0ff55; background:linear-gradient(180deg,#14003a 0,#0a0020 100%); position:relative; z-index:2;}
+    header{position:relative; padding:20px 14px; text-align:center; border-bottom:3px groove #b6f;}
     .title{
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(22px, 3.2vw, 44px); letter-spacing: 1.5px; margin:0; text-transform: uppercase;
-      background: linear-gradient(90deg, #ff00d4, #00ffea, #fffd37, #ff00d4);
-      background-size: 300% 100%;
-      -webkit-background-clip:text; background-clip:text; color: transparent;
-      animation: rainbow 8s linear infinite;
+      font-family:'Press Start 2P',monospace; font-size:clamp(22px,3.2vw,44px); letter-spacing:1.5px; margin:0; text-transform:uppercase;
+      background:linear-gradient(90deg,#ff00d4,#00ffea,#fffd37,#ff00d4); background-size:300% 100%;
+      -webkit-background-clip:text; background-clip:text; color:transparent; animation:rainbow 8s linear infinite;
     }
-    @keyframes rainbow{ from{background-position:0 0} to{background-position:300% 0} }
+    @keyframes rainbow{from{background-position:0 0}to{background-position:300% 0}}
 
-    .news{ background:#1b0050; border-top:3px ridge #74f; border-bottom:3px ridge #74f; padding:2px 0 }
+    .news{background:#1b0050; border-top:3px ridge #74f; border-bottom:3px ridge #74f; padding:2px 0}
     .news marquee{font-size:14px}
 
-    .grid{ display:grid; grid-template-columns: 220px 1fr; gap: 0; }
-    nav{ border-right:4px ridge #59e; background:#0d0130; padding:14px }
-    nav h3{ margin:10px 0; font-size:16px }
-    .btn{
-      display:block; margin:8px 0; padding:8px 10px; border:3px outset #58f; background:#001a5e; color:#e6e6ff;
-      text-transform:uppercase; font-weight:bold; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;
-      cursor:pointer;
-    }
-    .btn:hover{ border-style: inset; filter: brightness(1.2); }
+    .grid{display:grid; grid-template-columns:220px 1fr; gap:0}
+    nav{border-right:4px ridge #59e; background:#0d0130; padding:14px}
+    nav h3{margin:10px 0; font-size:16px}
+    .btn{display:block; margin:8px 0; padding:8px 10px; border:3px outset #58f; background:#001a5e; color:#e6e6ff; text-transform:uppercase; font-weight:bold; box-shadow:inset 0 0 10px #00e0ff44,0 0 6px #00e0ff55; cursor:pointer;}
+    .btn:hover{border-style:inset; filter:brightness(1.2)}
 
-    main{ padding:18px; }
-    .card{ border:4px groove #8bf; padding:14px; margin:14px 0; background:#120036aa; backdrop-filter: blur(1px); }
-    .blink{ animation: blink 1.2s steps(2, start) infinite; }
-    @keyframes blink { to { visibility:hidden } }
-    .counter{ font-family: monospace; letter-spacing:1px; background:#0008; display:inline-block; padding:4px 6px; border:3px inset #46f }
+    main{padding:18px}
+    .card{border:4px groove #8bf; padding:14px; margin:14px 0; background:#120036aa; backdrop-filter:blur(1px)}
+    .blink{animation:blink 1.2s steps(2,start) infinite}
+    @keyframes blink{to{visibility:hidden}}
+    .counter{font-family:monospace; letter-spacing:1px; background:#0008; display:inline-block; padding:4px 6px; border:3px inset #46f}
 
-    footer{ text-align:center; padding:10px; font-size:12px; color:#cde; border-top:3px ridge #59e }
+    footer{text-align:center; padding:10px; font-size:12px; color:#cde; border-top:3px ridge #59e}
 
-    .sparkle{ position: fixed; width:6px; height:6px; border-radius:50%; pointer-events:none; mix-blend-mode:screen; opacity:.9 }
+    .sparkle{position:fixed; width:6px; height:6px; border-radius:50%; pointer-events:none; mix-blend-mode:screen; opacity:.9}
 
-    @media (max-width: 780px){
-      .grid{ grid-template-columns: 1fr }
-      nav{border-right:0; border-bottom:4px ridge #59e}
-    }
+    @media (max-width:780px){.grid{grid-template-columns:1fr} nav{border-right:0; border-bottom:4px ridge #59e}}
 
-    /* === Dancing background character === */
-    #bgDancer{
-      position:fixed; right:2vw; bottom:0; width:min(38vmin, 420px); z-index:1; pointer-events:none; opacity:.28;
-      filter: contrast(110%) saturate(110%);
-    }
-    #bgDancer img{
-      width:100%; height:auto; image-rendering: pixelated; transform-origin: 50% 100%;
-      animation: dance-bop 1.1s ease-in-out infinite, dance-glow 3.6s linear infinite;
-      animation-play-state: paused;
-      will-change: transform, filter;
-    }
-    .playing #bgDancer img{ animation-play-state: running; }
+    /* Dancing background character */
+    #bgDancer{position:fixed; right:2vw; bottom:0; width:min(38vmin,420px); z-index:1; pointer-events:none; opacity:.28; filter:contrast(110%) saturate(110%)}
+    #bgDancer img{width:100%; height:auto; image-rendering:pixelated; transform-origin:50% 100%; animation:dance-bop 1.1s ease-in-out infinite, dance-glow 3.6s linear infinite; animation-play-state:paused; will-change:transform,filter}
+    .playing #bgDancer img{animation-play-state:running}
     @keyframes dance-bop{
       0%{transform:translateY(0) rotate(0) scale(1)}
       15%{transform:translateY(-2px) rotate(-1.5deg) scale(1.02)}
@@ -124,66 +103,71 @@
       100%{filter:contrast(110%) saturate(110%) drop-shadow(0 0 0 rgba(210,77,255,0))}
     }
 
-    /* === WEIRDCORE FLOATING EYES (added earlier) === */
-    #weirdLayer{ position:fixed; inset:0; pointer-events:none; z-index:1; }
-    .eye{
-      position:absolute; width:80px; height:50px; opacity:.6;
-      transform: translate(-50%,-50%) rotate(var(--rot,0deg));
-      filter: drop-shadow(0 0 6px rgba(255,0,212,.25));
-      animation: floaty 10s ease-in-out infinite;
-    }
-    .eye .sclera{ position:absolute; inset:0; border-radius:50% / 45%; background:
+    /* Floating eyes */
+    #weirdLayer{position:fixed; inset:0; pointer-events:none; z-index:1}
+    .eye{position:absolute; width:80px; height:50px; opacity:.6; transform:translate(-50%,-50%) rotate(var(--rot,0deg)); filter:drop-shadow(0 0 6px rgba(255,0,212,.25)); animation:floaty 10s ease-in-out infinite}
+    .eye .sclera{position:absolute; inset:0; border-radius:50% / 45%; background:
       radial-gradient(circle at 30% 40%, rgba(255,255,255,.95) 0 30%, rgba(255,255,255,.8) 31% 70%, rgba(180,180,255,.35) 71% 100%);
-      border:2px solid rgba(255,255,255,.6);
-    }
-    .eye .pupil{
-      --x:0px; --y:0px; position:absolute; width:18px; height:18px; border-radius:50%;
-      top:calc(50% - 9px); left:calc(50% - 9px); transform: translate(var(--x), var(--y));
-      background:
-        radial-gradient(circle at 35% 35%, #666 0 20%, #000 21% 60%, #0000 61%),
-        radial-gradient(circle at 50% 50%, #000 0 70%, #0000 71%);
-    }
-    @keyframes floaty{
-      0%,100%{ transform: translate(-50%,-50%) translateY(0) rotate(var(--rot,0deg)); }
-      50%{ transform: translate(-50%,-50%) translateY(-10px) rotate(calc(var(--rot,0deg) + 3deg)); }
-    }
+      border:2px solid rgba(255,255,255,.6)}
+    .eye .pupil{--x:0px; --y:0px; position:absolute; width:18px; height:18px; border-radius:50%; top:calc(50% - 9px); left:calc(50% - 9px); transform:translate(var(--x),var(--y));
+      background:radial-gradient(circle at 35% 35%, #666 0 20%, #000 21% 60%, #0000 61%), radial-gradient(circle at 50% 50%, #000 0 70%, #0000 71%)}
+    @keyframes floaty{0%,100%{transform:translate(-50%,-50%) translateY(0) rotate(var(--rot,0deg))}50%{transform:translate(-50%,-50%) translateY(-10px) rotate(calc(var(--rot,0deg) + 3deg))}}
 
-    /* === PIXEL GAME container keeps crisp scaling === */
-    .pixel-wrapper{ position:relative; width:100%; border:4px ridge #8bf; background:#0d0130; overflow:hidden; aspect-ratio:16/9; }
-    #pxCanvas{ width:100%; height:100%; image-rendering:pixelated; image-rendering:crisp-edges; display:block; background:#080016; }
+    .pixel-wrapper{position:relative; width:100%; border:4px ridge #8bf; background:#0d0130; overflow:hidden; aspect-ratio:16/9}
+    #pxCanvas{width:100%; height:100%; image-rendering:pixelated; image-rendering:crisp-edges; display:block; background:#080016}
 
-    /* === Public Chat theme match (added earlier) === */
-    #public-chat { --pc-bg:#0d0130; --pc-fg:#e6e6ff; --pc-border:#59e; --pc-shadow:#00e0ff55; }
+    /* Public Chat theme match */
+    #public-chat {--pc-bg:#0d0130; --pc-fg:#e6e6ff; --pc-border:#59e; --pc-shadow:#00e0ff55}
     #public-chat input.chat-input, #public-chat textarea.chat-input, #public-chat input[type="text"], #public-chat textarea{
       background:var(--pc-bg)!important; color:var(--pc-fg)!important; border:3px inset var(--pc-border);
       box-shadow:inset 0 0 10px #00e0ff22; font-family:'VT323', monospace; font-size:16px; outline:none; border-radius:0; caret-color:var(--pc-fg);
     }
-    #public-chat input.chat-input:focus, #public-chat textarea.chat-input:focus{
-      box-shadow:inset 0 0 10px #00e0ff55, 0 0 6px #00e0ff55;
+    #public-chat input.chat-input:focus, #public-chat textarea.chat-input:focus{box-shadow:inset 0 0 10px #00e0ff55, 0 0 6px #00e0ff55}
+    #public-chat ::placeholder{color:#c8d0ffbb}
+    #public-chat #pcSend.btn{border:3px outset #58f!important; background:#001a5e!important; color:#e6e6ff!important; text-transform:uppercase; font-weight:bold; box-shadow:inset 0 0 10px #00e0ff44, 0 0 6px var(--pc-shadow)}
+    #public-chat #pcSend.btn:hover{filter:brightness(1.15); border-style:inset}
+    #pcFeed{background:#0d0130; color:#e6e6ff; border:4px ridge #8bf; font-family:'VT323', monospace; line-height:1.15}
+    #public-chat .chat-item{background:#0b0022; border:3px groove #8bf; padding:10px; font-family:'VT323', monospace; white-space:pre-wrap}
+    #public-chat .chat-head{gap:8px; align-items:baseline; flex-wrap:wrap}
+    #public-chat .chat-name{color:#fffd37}
+    #public-chat .chat-time{opacity:.8; font-size:12px}
+    #pcFeed::-webkit-scrollbar{width:12px}
+    #pcFeed::-webkit-scrollbar-track{background:#060015; border-left:2px ridge #59e}
+    #pcFeed::-webkit-scrollbar-thumb{background:#001a5e; border:3px outset #58f; box-shadow:0 0 10px #00e0ff44}
+
+    /* === MUSHROOM FX ONLY (lava lamp removed) === */
+    #mushroomFX{position:fixed; inset:0; z-index:1; pointer-events:none; image-rendering:pixelated; image-rendering:crisp-edges}
+
+    /* === PIXEL CRT TV (bottom-left overlay) === */
+    #pixelTV{
+      position:fixed; left:10px; bottom:10px; z-index:5;
+      width:min(30vmin,280px); aspect-ratio:4/3; pointer-events:none;
+      filter: drop-shadow(0 0 10px rgba(0,224,255,.35)) drop-shadow(0 0 18px rgba(255,0,212,.25));
     }
-    #public-chat ::placeholder{ color:#c8d0ffbb; }
-    #public-chat #pcSend.btn{
-      border:3px outset #58f!important; background:#001a5e!important; color:#e6e6ff!important;
-      text-transform:uppercase; font-weight:bold; box-shadow:inset 0 0 10px #00e0ff44, 0 0 6px var(--pc-shadow);
+    #pixelTV canvas{ width:100%; height:100%; image-rendering:pixelated; image-rendering:crisp-edges; display:block; }
+    @media (max-width:780px){
+      #pixelTV{ left:6px; bottom:6px; width:min(34vmin,220px); }
     }
-    #public-chat #pcSend.btn:hover{ filter:brightness(1.15); border-style:inset; }
-    #pcFeed{ background:#0d0130; color:#e6e6ff; border:4px ridge #8bf; font-family:'VT323', monospace; line-height:1.15; }
-    #public-chat .chat-item{ background:#0b0022; border:3px groove #8bf; padding:10px; font-family:'VT323', monospace; white-space:pre-wrap; }
-    #public-chat .chat-head{ gap:8px; align-items:baseline; flex-wrap:wrap; }
-    #public-chat .chat-name{ color:#fffd37; }
-    #public-chat .chat-time{ opacity:.8; font-size:12px }
-    #pcFeed::-webkit-scrollbar{ width:12px }
-    #pcFeed::-webkit-scrollbar-track{ background:#060015; border-left:2px ridge #59e }
-    #pcFeed::-webkit-scrollbar-thumb{ background:#001a5e; border:3px outset #58f; box-shadow:0 0 10px #00e0ff44; }
   </style>
 </head>
 
 <body>
-  <!-- NEW: floating eyes layer -->
+  <div id="lavaBg" aria-hidden="true"></div>
+
+  <!-- floating eyes -->
   <div id="weirdLayer"></div>
+
+  <!-- BACKGROUND MUSHROOMS -->
+  <canvas id="mushroomFX"></canvas>
 
   <!-- Background dancing character -->
   <div id="bgDancer"><img src="img/dancer.png" alt="THE KID IN THE BOX — dancing"/></div>
+
+  <!-- ▼▼ ADDED: Pixel CRT TV overlay ▼▼ -->
+  <div id="pixelTV" aria-hidden="true">
+    <canvas id="tvCRT" width="160" height="120"></canvas>
+  </div>
+  <!-- ▲▲ ADDED: Pixel CRT TV overlay ▲▲ -->
 
   <div class="frame">
     <header>
@@ -228,15 +212,7 @@
           <audio id="player" preload="auto" src="music.mp3"></audio>
           <p>check out my music it is really good <code></code>  <code></code>.</p>
           <div style="border:4px ridge #8bf; box-shadow:0 0 25px #00e0ff55; background:#0d0130; padding:6px;">
-            <iframe
-              width="100%"
-              height="315"
-              src="https://www.youtube.com/embed/iCsEXdCGPag"
-              title="THE KID IN THE BOX — Official Music Video"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/iCsEXdCGPag" title="THE KID IN THE BOX — Official Music Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </section>
 
@@ -249,7 +225,7 @@
           </ul>
         </section>
 
-        <!-- === ARCADE: Pixel Blaster (in-page, no external host) === -->
+        <!-- === ARCADE: Pixel Blaster === -->
         <section class="card" id="arcade">
           <h2>🕹️ Pixel Blaster</h2>
           <p>Move with <strong>A/D</strong> or <strong>←/→</strong>, shoot with <strong>SPACE</strong>, pause with <strong>P</strong>. Survive and score!</p>
@@ -264,7 +240,7 @@
           </div>
         </section>
 
-        <!-- === PUBLIC CHAT (no login) === -->
+        <!-- === PUBLIC CHAT === -->
         <section class="card" id="public-chat">
           <h2>🗣️ Public Chat — share your feelings</h2>
           <div style="display:grid; gap:8px; max-width:720px">
@@ -272,12 +248,10 @@
             <textarea id="pcText" class="chat-input" rows="3" placeholder="What are you feeling right now?" maxlength="300"></textarea>
             <div style="display:flex; gap:8px; align-items:center">
               <button class="btn" id="pcSend" type="button">Post</button>
-              <small id="pcHint" style="opacity:.8">Be kind / بلا قلة ادب ولا احد يسب. Max 300 chars. No login needed.</small>
+              <small id="pcHint" style="opacity:.8">Be kind...Max 300 chars. No login needed.</small>
             </div>
           </div>
-          <div id="pcFeed"
-               style="margin-top:14px; max-height:380px; overflow:auto; display:grid; gap:10px; border:4px ridge #8bf; padding:10px; background:#0d0130;">
-          </div>
+          <div id="pcFeed" style="margin-top:14px; max-height:380px; overflow:auto; display:grid; gap:10px; border:4px ridge #8bf; padding:10px; background:#0d0130;"></div>
         </section>
 
         <section class="card" id="gallery">
@@ -302,406 +276,391 @@
     </footer>
   </div>
 
-  <!-- Floating music control (top-right) -->
+  <!-- Floating music control -->
   <button id="musicBtn" title="Play/Pause" style="position:fixed; top:14px; right:14px; z-index:9999; border:3px outset #58f; background:#001a5e; color:#e6e6ff; padding:10px 12px; font-weight:bold; text-transform:uppercase; box-shadow: inset 0 0 10px #00e0ff44, 0 0 6px #00e0ff55;">▶ Music</button>
 
-  <!-- NEW: volume slider -->
-  <input id="volCtrl" type="range" min="0" max="100" value="35"
+  <!-- Volume slider -->
+  <input id="volCtrl" type="range" min="15" max="100" value="35"
     title="Volume" style="position:fixed; top:14px; right:110px; z-index:9999; width:130px; accent-color:#58f">
 
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Fake hit counter via localStorage
+    // Fake hit counter
     (function(){
-      const key = 'alhur-counter-v1';
-      const n = (Number(localStorage.getItem(key))||1) + Math.floor(Math.random()*3+1);
-      localStorage.setItem(key, n);
-      const el = document.getElementById('counter');
-      if (el) el.textContent = String(n).padStart(6,'0');
+      const key='alhur-counter-v1';
+      const n=(Number(localStorage.getItem(key))||1)+Math.floor(Math.random()*3+1);
+      localStorage.setItem(key,n);
+      const el=document.getElementById('counter');
+      if(el) el.textContent=String(n).padStart(6,'0');
     })();
 
-    // Music autoplay (after first interaction) + button control
-    const player = document.getElementById('player');
-    const btn = document.getElementById('musicBtn');
+    // Music control + volume memory
+    const player=document.getElementById('player');
+    const btn=document.getElementById('musicBtn');
+    const volCtrl=document.getElementById('volCtrl');
 
-    // NEW: Volume control with memory + quieter default
-    const volCtrl = document.getElementById('volCtrl');
-   const savedVol = Number(localStorage.getItem('site-vol'));
-if (!Number.isNaN(savedVol)) {
-  player.volume = Math.min(1, Math.max(0, savedVol));
-  if (volCtrl) volCtrl.value = Math.round(player.volume * 100);
-} else {
-  player.volume = 0.5;             // start at 50%
-  if (volCtrl) volCtrl.value = 50;
-}
+    function setVolume(v){const c=Math.min(1,Math.max(0.15,v)); player.volume=c; if(volCtrl) volCtrl.value=Math.round(c*100); localStorage.setItem('site-vol',String(c));}
+    const savedVol=Number(localStorage.getItem('site-vol')); if(!Number.isNaN(savedVol)) setVolume(savedVol); else setVolume(0.5);
+    volCtrl?.addEventListener('input',()=>setVolume(volCtrl.value/100));
+    player.addEventListener('volumechange',()=>{ if(player.volume<0.15) setVolume(0.15); });
 
-    volCtrl?.addEventListener('input', () => {
-      const v = volCtrl.value / 100;
-      player.volume = v;
-      localStorage.setItem('site-vol', String(v));
-    });
+    let interacted=false;
+    function playPause(){ if(!player) return; if(player.paused){ player.play().catch(()=>{}); btn.textContent='❚❚ Pause'; } else{ player.pause(); btn.textContent='▶ Music'; } }
+    btn.addEventListener('click',()=>{ interacted=true; playPause(); });
+    window.addEventListener('pointerdown',()=>{ if(!interacted&&player){ interacted=true; player.play().catch(()=>{}); btn.textContent='❚❚ Pause'; } },{once:true});
+    if(player){ player.addEventListener('ended',()=>{ player.currentTime=0; player.play().catch(()=>{}); }); }
 
-    let interacted = false;
+    // Sync dancer with music
+    const dancerWrap=document.getElementById('bgDancer');
+    function syncDancer(){ if(!dancerWrap||!player) return; document.body.classList.toggle('playing',!player.paused); }
+    if(player){ player.addEventListener('play',syncDancer); player.addEventListener('pause',syncDancer); window.addEventListener('load',syncDancer); }
 
-    function playPause(){
-      if(!player) return;
-      if(player.paused){
-        player.play().catch(()=>{});
-        btn.textContent = '❚❚ Pause';
-      } else{
-        player.pause();
-        btn.textContent = '▶ Music';
-      }
-    }
-    btn.addEventListener('click', ()=>{ interacted = true; playPause(); });
-    window.addEventListener('pointerdown', ()=>{
-      if(!interacted && player){
-        interacted = true;
-        player.play().catch(()=>{});
-        btn.textContent='❚❚ Pause';
-      }
-    }, {once:true});
-    if (player){
-      player.addEventListener('ended', ()=>{
-        player.currentTime = 0;
-        player.play().catch(()=>{}); // loop
-      });
-    }
-
-    // Sync dancer animation with music play/pause
-    const dancerWrap = document.getElementById('bgDancer');
-    function syncDancer(){
-      if(!dancerWrap || !player) return;
-      document.body.classList.toggle('playing', !player.paused);
-    }
-    if(player){
-      player.addEventListener('play', syncDancer);
-      player.addEventListener('pause', syncDancer);
-      window.addEventListener('load', syncDancer);
-    }
-
-    // 90s mouse sparkle trail
+    // Mouse sparkle
     (function(){
-      const colors = ['#ff00d4','#00ffea','#fffd37'];
-      let lastX=-999, lastY=-999;
-      window.addEventListener('mousemove', (e)=>{
-        if(Math.hypot(e.clientX-lastX, e.clientY-lastY) < 8) return; // throttle
-        lastX=e.clientX; lastY=e.clientY;
-        const s = document.createElement('div');
-        s.className = 'sparkle';
-        s.style.left = (e.clientX - 3) + 'px';
-        s.style.top = (e.clientY - 3) + 'px';
-        s.style.background = colors[Math.floor(Math.random()*colors.length)];
-        s.style.boxShadow = '0 0 12px currentColor, 0 0 24px currentColor';
+      const colors=['#ff00d4','#00ffea','#fffd37']; let lastX=-999,lastY=-999;
+      window.addEventListener('mousemove',(e)=>{
+        if(Math.hypot(e.clientX-lastX, e.clientY-lastY)<8) return; lastX=e.clientX; lastY=e.clientY;
+        const s=document.createElement('div'); s.className='sparkle';
+        s.style.left=(e.clientX-3)+'px'; s.style.top=(e.clientY-3)+'px';
+        s.style.background=colors[Math.floor(Math.random()*colors.length)];
+        s.style.boxShadow='0 0 12px currentColor, 0 0 24px currentColor';
         document.body.appendChild(s);
-        setTimeout(()=>{ s.style.transition='all .6s ease-out'; s.style.transform='translateY(-12px) scale(0)'; s.style.opacity='0'; }, 10);
-        setTimeout(()=> s.remove(), 700);
+        setTimeout(()=>{ s.style.transition='all .6s ease-out'; s.style.transform='translateY(-12px) scale(0)'; s.style.opacity='0'; },10);
+        setTimeout(()=> s.remove(),700);
       });
     })();
 
-    document.addEventListener('contextmenu', (e)=>{
-      e.preventDefault();
-      alert('No stealing my pixels! (jk)\n— Harry G');
-    });
+    document.addEventListener('contextmenu',(e)=>{ e.preventDefault(); alert('No stealing my pixels! (jk)\n— Harry G'); });
   </script>
 
-  <!-- ===== PIXEL BLASTER — tiny in-page pixel shooter ===== -->
+  <!-- === Pixel Blaster === -->
   <script>
   (function(){
-    const view = document.getElementById('pxCanvas');
-    const scoreEl = document.getElementById('pxScore');
-    const livesEl = document.getElementById('pxLives');
-    const levelEl = document.getElementById('pxLevel');
-    const startBtn = document.getElementById('pxStart');
+    const view=document.getElementById('pxCanvas');
+    if(!view) return;
+    const scoreEl=document.getElementById('pxScore');
+    const livesEl=document.getElementById('pxLives');
+    const levelEl=document.getElementById('pxLevel');
+    const startBtn=document.getElementById('pxStart');
 
-    const w = view.width, h = view.height;
-    const ctx = view.getContext('2d');
+    const w=view.width, h=view.height;
+    const ctx=view.getContext('2d');
 
-    // ===== TUNABLES =====
-    const ONE_HIT_DEATH = true;
-    const PLAYER_SPEED   = 190;
-    const PLAYER_COOLDOWN_FRAMES = 4;
-    const ENEMY_BASE_SPEED = 12;
-    const ENEMY_FIRE_BASE = 0.010;
-    const ENEMY_BULLET_SPEED = 120;
-    const ENEMY_AIMING = 0.45;
+    const ONE_HIT_DEATH=true, PLAYER_SPEED=190, PLAYER_COOLDOWN_FRAMES=4, ENEMY_BASE_SPEED=12, ENEMY_FIRE_BASE=0.010, ENEMY_BULLET_SPEED=120, ENEMY_AIMING=0.45;
+    const ENEMY_BULLET_RADIUS=4;
 
-    // NEW: round bullet size
-    const ENEMY_BULLET_RADIUS = 4;
+    let playing=false, paused=false, frame=0, score=0, lives=ONE_HIT_DEATH?1:3, level=1;
+    const keys={left:false,right:false,shoot:false};
 
-    // game state
-    let playing = false, paused = false, frame = 0, score = 0, lives = ONE_HIT_DEATH ? 1 : 3, level = 1;
-    const keys = {left:false, right:false, shoot:false};
-
-    // entities
-    const player = { x: w/2, y: h-18, vx: 0, speed: PLAYER_SPEED, cooldown: 0, blink: 0 };
-    const bullets = [];   // player bullets
-    const eBullets = [];  // enemy bullets
-    const enemies = [];
-    const stars = Array.from({length:80}, ()=>({x:Math.random()*w, y:Math.random()*h, s: Math.random()*1.5+0.5}));
+    const player={x:w/2,y:h-18,vx:0,speed:PLAYER_SPEED,cooldown:0,blink:0};
+    const bullets=[], eBullets=[], enemies=[];
+    const stars=Array.from({length:80},()=>({x:Math.random()*w,y:Math.random()*h,s:Math.random()*1.5+0.5}));
 
     function resetRound(){
-      bullets.length = 0; eBullets.length = 0; enemies.length = 0;
-      const count = 7 + level;
+      bullets.length=0; eBullets.length=0; enemies.length=0;
+      const count=7+level;
       for(let i=0;i<count;i++){
-        enemies.push({
-          x: 20 + i*((w-40)/count) + (Math.random()*6-3),
-          y: 22 + Math.random()*16,
-          vx: (Math.random()<0.5?-1:1) * (ENEMY_BASE_SPEED + level*2),
-          hp: 1,
-          cooldown: Math.floor(Math.random()*60)
-        });
+        enemies.push({x:20+i*((w-40)/count)+(Math.random()*6-3), y:22+Math.random()*16, vx:(Math.random()<0.5?-1:1)*(ENEMY_BASE_SPEED+level*2), hp:1, cooldown:Math.floor(Math.random()*60)});
       }
     }
 
-    function start(){
-      playing = true; paused = false;
-      score = 0; lives = ONE_HIT_DEATH ? 1 : 3; level = 1; frame = 0;
-      player.x = w/2; player.cooldown = 0; player.blink = 0;
-      resetRound();
-      startBtn.textContent = 'Playing…';
-      startBtn.disabled = true;
-      loop();
-    }
+    function start(){ playing=true; paused=false; score=0; lives=ONE_HIT_DEATH?1:3; level=1; frame=0;
+      player.x=w/2; player.cooldown=0; player.blink=0; resetRound(); startBtn.textContent='Playing…'; startBtn.disabled=true; loop(); }
+    function nextLevel(){ level++; levelEl.textContent=level; resetRound(); }
 
-    function nextLevel(){
-      level++; levelEl.textContent = level; resetRound();
-    }
+    window.addEventListener('keydown',(e)=>{ if(e.key==='a'||e.key==='ArrowLeft') keys.left=true; if(e.key==='d'||e.key==='ArrowRight') keys.right=true; if(e.code==='Space'){ keys.shoot=true; e.preventDefault(); } if(e.key.toLowerCase()==='p') paused=!paused; });
+    window.addEventListener('keyup',(e)=>{ if(e.key==='a'||e.key==='ArrowLeft') keys.left=false; if(e.key==='d'||e.key==='ArrowRight') keys.right=false; if(e.code==='Space') keys.shoot=false; });
 
-    // controls
-    window.addEventListener('keydown', (e)=>{
-      if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = true;
-      if (e.key === 'd' || e.key === 'ArrowRight') keys.right = true;
-      if (e.code === 'Space') { keys.shoot = true; e.preventDefault(); }
-      if (e.key.toLowerCase() === 'p') paused = !paused;
-    });
-    window.addEventListener('keyup', (e)=>{
-      if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = false;
-      if (e.key === 'd' || e.key === 'ArrowRight') keys.right = false;
-      if (e.code === 'Space') keys.shoot = false;
-    });
+    function fire(){ if(player.cooldown>0) return; bullets.push({x:player.x,y:player.y-6,vy:-300}); player.cooldown=PLAYER_COOLDOWN_FRAMES; }
+    function enemyFire(ex,ey){ const dx=player.x-ex, dy=player.y-ey, len=Math.hypot(dx,dy)||1; const ax=(1-ENEMY_AIMING)*0+ENEMY_AIMING*(dx/len), ay=(1-ENEMY_AIMING)*1+ENEMY_AIMING*(dy/len), s=ENEMY_BULLET_SPEED+level*10; eBullets.push({x:ex,y:ey+4,vx:ax*s,vy:ay*s}); }
 
-    function fire(){
-      if (player.cooldown > 0) return;
-      bullets.push({x: player.x, y: player.y-6, vy: -300});
-      player.cooldown = PLAYER_COOLDOWN_FRAMES;
-    }
-
-    function enemyFire(ex, ey){
-      const dx = player.x - ex;
-      const dy = (player.y - ey);
-      const len = Math.hypot(dx, dy) || 1;
-      const ax = (1-ENEMY_AIMING)*0 + ENEMY_AIMING*(dx/len);
-      const ay = (1-ENEMY_AIMING)*1 + ENEMY_AIMING*(dy/len);
-      const speed = ENEMY_BULLET_SPEED + level*10;
-      eBullets.push({ x: ex, y: ey+4, vx: ax*speed, vy: ay*speed });
-    }
-
-    function loop(){
-      if (!playing) return;
-      requestAnimationFrame(loop);
-      if (paused) { draw(true); return; }
-
-      frame++;
-
-      // update
-      player.vx = (keys.right?1:0) - (keys.left?1:0);
-      player.x = Math.max(8, Math.min(w-8, player.x + player.vx*PLAYER_SPEED*(1/60)));
-
-      if (keys.shoot) fire();
-      if (player.cooldown>0) player.cooldown--;
-      if (player.blink>0) player.blink--;
-
-      bullets.forEach(b=> b.y += b.vy*(1/60));
-      for (let i=bullets.length-1;i>=0;i--) if (bullets[i].y < -6) bullets.splice(i,1);
-
-      enemies.forEach(e=>{
-        e.x += e.vx*(1/60);
-        if (e.x < 8 || e.x > w-8) e.vx *= -1;
-        e.y += Math.sin((frame+e.x)*0.03)*0.1;
-
-        if (e.cooldown > 0) e.cooldown--;
-        const aligned = Math.abs(e.x - player.x) < 10 ? 0.02 : 0;
-        if (e.cooldown===0 && Math.random() < (ENEMY_FIRE_BASE + level*0.002 + aligned)){
-          enemyFire(e.x, e.y);
-          e.cooldown = 40 + Math.floor(Math.random()*40) - Math.min(level*2, 20);
-          if (e.cooldown < 10) e.cooldown = 10;
-        }
+    function loop(){ if(!playing) return; requestAnimationFrame(loop); if(paused){ draw(true); return; }
+      frame++; player.vx=(keys.right?1:0)-(keys.left?1:0); player.x=Math.max(8,Math.min(w-8,player.x+player.vx*PLAYER_SPEED*(1/60)));
+      if(keys.shoot) fire(); if(player.cooldown>0) player.cooldown--; if(player.blink>0) player.blink--;
+      bullets.forEach(b=> b.y+=b.vy*(1/60)); for(let i=bullets.length-1;i>=0;i--) if(bullets[i].y<-6) bullets.splice(i,1);
+      enemies.forEach(e=>{ e.x+=e.vx*(1/60); if(e.x<8||e.x>w-8) e.vx*=-1; e.y+=Math.sin((frame+e.x)*0.03)*0.1;
+        if(e.cooldown>0) e.cooldown--; const aligned=Math.abs(e.x-player.x)<10?0.02:0;
+        if(e.cooldown===0 && Math.random()<(ENEMY_FIRE_BASE+level*0.002+aligned)){ enemyFire(e.x,e.y); e.cooldown=40+Math.floor(Math.random()*40)-Math.min(level*2,20); if(e.cooldown<10) e.cooldown=10; }
       });
-
-      eBullets.forEach(b=>{ b.x += b.vx*(1/60); b.y += b.vy*(1/60); });
-      for (let i=eBullets.length-1;i>=0;i--){
-        const b = eBullets[i];
-        if (b.y > h+4 || b.y < -4 || b.x > w+4 || b.x < -4) eBullets.splice(i,1);
+      eBullets.forEach(b=>{ b.x+=b.vx*(1/60); b.y+=b.vy*(1/60); });
+      for(let i=eBullets.length-1;i>=0;i--){ const b=eBullets[i]; if(b.y>h+4||b.y<-4||b.x>w+4||b.x<-4) eBullets.splice(i,1); }
+      for(let i=enemies.length-1;i>=0;i--){ const e=enemies[i]; if(e.y>=h-24){ enemies.splice(i,1); damage(); continue; }
+        for(let j=bullets.length-1;j>=0;j--){ const b=bullets[j]; if(Math.abs(b.x-e.x)<6 && Math.abs(b.y-e.y)<6){ bullets.splice(j,1); e.hp-=1; score+=10; scoreEl.textContent=score; if(e.hp<=0) enemies.splice(i,1); break; } }
       }
-
-      for (let i=enemies.length-1;i>=0;i--){
-        const e=enemies[i];
-        if (e.y >= h-24){ enemies.splice(i,1); damage(); continue; }
-        for (let j=bullets.length-1;j>=0;j--){
-          const b=bullets[j];
-          if (Math.abs(b.x-e.x)<6 && Math.abs(b.y-e.y)<6){
-            bullets.splice(j,1); e.hp-=1; score+=10; scoreEl.textContent=score;
-            if (e.hp<=0) enemies.splice(i,1);
-            break;
-          }
-        }
-      }
-
-      for (let i=eBullets.length-1;i>=0;i--){
-        const b=eBullets[i], shipHalfW=3, shipHalfH=5;
-        const nx=Math.max(player.x-shipHalfW, Math.min(b.x, player.x+shipHalfW));
-        const ny=Math.max(player.y-shipHalfH, Math.min(b.y, player.y+shipHalfH));
-        const dx=b.x-nx, dy=b.y-ny;
-        if (dx*dx+dy*dy <= 16){ eBullets.splice(i,1); damage(true); break; }
-      }
-
-      if (enemies.length===0){ score+=100; scoreEl.textContent=score; nextLevel(); }
-
-      // starfield
-      stars.forEach(s=>{ s.y += s.s*0.6; if (s.y>h){ s.y=-2; s.x=Math.random()*w; } });
-
+      for(let i=eBullets.length-1;i>=0;i--){ const b=eBullets[i], hw=3, hh=5; const nx=Math.max(player.x-hw,Math.min(b.x,player.x+hw)); const ny=Math.max(player.y-hh,Math.min(b.y,player.y+hh)); const dx=b.x-nx, dy=b.y-ny;
+        if(dx*dx+dy*dy<=16){ eBullets.splice(i,1); damage(true); break; } }
+      if(enemies.length===0){ score+=100; scoreEl.textContent=score; nextLevel(); }
+      stars.forEach(s=>{ s.y+=s.s*0.6; if(s.y>h){ s.y=-2; s.x=Math.random()*w; } });
       draw(false);
     }
 
-    function damage(fromBullet=false){
-      if (ONE_HIT_DEATH || fromBullet){
-        lives = 0; livesEl.textContent = lives; return gameOver('YOU LOST!');
-      }
-      if (player.blink>0) return;
-      lives--; livesEl.textContent=lives;
-      if (lives<=0){ gameOver('YOU LOST!'); }
-      else { player.x=w/2; player.blink=90; }
-    }
-
-    function gameOver(msg){
-      playing=false; startBtn.textContent='Restart'; startBtn.disabled=false;
+    function damage(fromBullet=false){ if(ONE_HIT_DEATH||fromBullet){ lives=0; livesEl.textContent=lives; return gameOver('YOU LOST!'); }
+      if(player.blink>0) return; lives--; livesEl.textContent=lives; if(lives<=0){ gameOver('YOU LOST!'); } else { player.x=w/2; player.blink=90; } }
+    function gameOver(msg){ playing=false; startBtn.textContent='Restart'; startBtn.disabled=false;
       ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(0,0,w,h);
       ctx.fillStyle='#d24dff'; ctx.font='20px VT323, monospace'; ctx.fillText(msg||'YOU LOST!',96,72);
       ctx.fillStyle='#e6e6ff'; ctx.font='16px VT323, monospace';
-      ctx.fillText('GAME OVER',110,94); ctx.fillText('Score: '+score,118,112); ctx.fillText('Press Start to play again',54,134);
-    }
-
-    function draw(pausedOverlay){
-      ctx.fillStyle='#080016'; ctx.fillRect(0,0,w,h);
-      ctx.fillStyle='#7cf9ff'; stars.forEach(s=> ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 1, 1));
-      if (!(player.blink>0 && Math.floor(frame/6)%2===0)){
-        ctx.fillStyle='#ff00d4';
-        const px=Math.floor(player.x), py=Math.floor(player.y);
-        const ship=[[0,1,0],[1,1,1],[0,1,0],[1,1,1],[0,1,0]];
-        for(let r=0;r<ship.length;r++) for(let c=0;c<ship[r].length;c++) if (ship[r][c]) ctx.fillRect(px-3+c*2, py-5+r*2, 2, 2);
-      }
+      ctx.fillText('GAME OVER',110,94); ctx.fillText('Score: '+score,118,112); ctx.fillText('Press Start to play again',54,134); }
+    function draw(pausedOverlay){ const w2=view.width,h2=view.height; ctx.fillStyle='#080016'; ctx.fillRect(0,0,w2,h2);
+      ctx.fillStyle='#7cf9ff'; stars.forEach(s=> ctx.fillRect(Math.floor(s.x),Math.floor(s.y),1,1));
+      if(!(player.blink>0 && Math.floor(frame/6)%2===0)){ ctx.fillStyle='#ff00d4'; const px=Math.floor(player.x), py=Math.floor(player.y);
+        const ship=[[0,1,0],[1,1,1],[0,1,0],[1,1,1],[0,1,0]]; for(let r=0;r<ship.length;r++) for(let c=0;c<ship[r].length;c++) if(ship[r][c]) ctx.fillRect(px-3+c*2, py-5+r*2, 2, 2); }
       ctx.fillStyle='#fffd37'; bullets.forEach(b=> ctx.fillRect(Math.floor(b.x)-1, Math.floor(b.y)-3, 2, 3));
-      enemies.forEach(e=>{ const ex=Math.floor(e.x), ey=Math.floor(e.y); ctx.fillStyle='#00ffea'; ctx.fillRect(ex-4,ey-3,8,6); ctx.fillStyle='#080016'; ctx.fillRect(ex-2,ey-1,1,1); ctx.fillRect(ex+1,ey-1,1,1); });
+      enemies.forEach(e=>{ const ex=Math.floor(e.x),ey=Math.floor(e.y); ctx.fillStyle='#00ffea'; ctx.fillRect(ex-4,ey-3,8,6); ctx.fillStyle='#080016'; ctx.fillRect(ex-2,ey-1,1,1); ctx.fillRect(ex+1,ey-1,1,1); });
       ctx.fillStyle='#d24dff'; eBullets.forEach(b=>{ ctx.beginPath(); ctx.arc(b.x|0, b.y|0, 4, 0, Math.PI*2); ctx.fill(); });
-      if (pausedOverlay){ ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#e6e6ff'; ctx.font='16px VT323, monospace'; ctx.fillText('PAUSED (press P)',96,92); }
+      if(pausedOverlay){ ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(0,0,w2,h2); ctx.fillStyle='#e6e6ff'; ctx.font='16px VT323, monospace'; ctx.fillText('PAUSED (press P)',96,92); }
     }
-
-    startBtn.addEventListener('click', ()=>{ if (!playing) start(); });
-
+    document.getElementById('pxStart').addEventListener('click',()=>{ if(!playing) start(); });
     scoreEl.textContent=score; livesEl.textContent=lives; levelEl.textContent=level;
   })();
   </script>
 
-  <!-- ===== Floating weird eyes ===== -->
+  <!-- Floating weird eyes -->
   <script>
     (function(){
-      const layer = document.getElementById('weirdLayer');
+      const layer=document.getElementById('weirdLayer');
       if(!layer){ const l=document.createElement('div'); l.id='weirdLayer'; document.body.prepend(l); }
-      const host = document.getElementById('weirdLayer');
-      const COUNT = 10; // how many eyes
-      const eyes = [];
-
-      function spawn(){
-        for(let i=0;i<COUNT;i++){
-          const eye=document.createElement('div'); eye.className='eye';
-          eye.style.left = (Math.random()*100)+'%';
-          eye.style.top  = (Math.random()*100)+'%';
-          eye.style.setProperty('--rot', (Math.random()*8-4)+'deg');
-          eye.style.animationDelay = (Math.random()*4)+'s';
-          const scl=document.createElement('div'); scl.className='sclera';
-          const pup=document.createElement('div'); pup.className='pupil';
-          eye.appendChild(scl); eye.appendChild(pup);
-          host.appendChild(eye);
-          eyes.push({eye, pup});
-        }
-      }
+      const host=document.getElementById('weirdLayer'); const COUNT=10; const eyes=[];
+      function spawn(){ for(let i=0;i<COUNT;i++){ const eye=document.createElement('div'); eye.className='eye';
+        eye.style.left=(Math.random()*100)+'%'; eye.style.top=(Math.random()*100)+'%'; eye.style.setProperty('--rot',(Math.random()*8-4)+'deg'); eye.style.animationDelay=(Math.random()*4)+'s';
+        const scl=document.createElement('div'); scl.className='sclera'; const pup=document.createElement('div'); pup.className='pupil'; eye.appendChild(scl); eye.appendChild(pup); host.appendChild(eye); eyes.push({eye,pup}); } }
       spawn();
-
-      function track(e){
-        const mx = e.clientX, my = e.clientY;
-        eyes.forEach(({eye,pup})=>{
-          const r = eye.getBoundingClientRect();
-          const cx = r.left + r.width/2, cy = r.top + r.height/2;
-          const dx = mx - cx, dy = my - cy;
-          const mag = Math.min(10, Math.hypot(dx,dy)/10);
-          const a = Math.atan2(dy,dx);
-          pup.style.setProperty('--x', (Math.cos(a)*mag)+'px');
-          pup.style.setProperty('--y', (Math.sin(a)*mag)+'px');
-        });
-      }
-      window.addEventListener('mousemove', track);
+      function track(e){ const mx=e.clientX,my=e.clientY; eyes.forEach(({eye,pup})=>{ const r=eye.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2;
+        const dx=mx-cx, dy=my-cy; const mag=Math.min(10, Math.hypot(dx,dy)/10); const a=Math.atan2(dy,dx); pup.style.setProperty('--x',(Math.cos(a)*mag)+'px'); pup.style.setProperty('--y',(Math.sin(a)*mag)+'px'); }); }
+      window.addEventListener('mousemove',track);
     })();
   </script>
 
-  <!-- ===== Firebase (no-auth public chat) ===== -->
+  <!-- Firebase (no-auth public chat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore-compat.js"></script>
   <script>
-    // === Replace with your Firebase config ===
-    const firebaseConfig = {
-      apiKey: "AIzaSyDTDgv-kqr1GSWguVUBP5NDZvc5U4Z1jSw",
-      authDomain: "kid-in-the-box.firebaseapp.com",
-      projectId: "kid-in-the-box",
-      appId: "513322178741:web:555149700b0a3e5d7a46fc"
-    };
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    const pcDb = firebase.firestore();
-
-    const pcName = document.getElementById('pcName');
-    const pcText = document.getElementById('pcText');
-    const pcSend = document.getElementById('pcSend');
-    const pcFeed = document.getElementById('pcFeed');
-    const pcHint = document.getElementById('pcHint');
-
-    pcName.value = localStorage.getItem('public-chat-name') || '';
-    pcName.addEventListener('input', () => localStorage.setItem('public-chat-name', pcName.value));
-
-    function pcCanPost(){ const last = Number(localStorage.getItem('public-chat-last') || 0); return (Date.now() - last) > 15000; }
-    function pcMarkPosted(){ localStorage.setItem('public-chat-last', Date.now()); }
-
-    function pcRender(d){
-      const wrap = document.createElement('div'); wrap.className = 'chat-item';
-      const head = document.createElement('div'); head.className = 'chat-head';
-      const name = document.createElement('span'); name.className = 'chat-name'; name.textContent = d.name || 'Anon';
-      const time = document.createElement('span'); time.className = 'chat-time';
-      const t = d.createdAt?.toDate ? d.createdAt.toDate() : new Date();
-      time.textContent = '• ' + t.toLocaleString();
-      head.appendChild(name); head.appendChild(time);
-      const body = document.createElement('p'); body.style.margin='6px 0 0'; body.textContent = d.text || '';
-      wrap.appendChild(head); wrap.appendChild(body);
-      return wrap;
-    }
-
-    pcDb.collection('publicChat').orderBy('createdAt','desc').limit(100)
-      .onSnapshot(snap=>{
-        pcFeed.innerHTML = '';
-        snap.forEach(doc=> pcFeed.appendChild( pcRender(doc.data()) ));
-      });
-
-    pcSend.addEventListener('click', async ()=>{
-      const name = pcName.value.trim().slice(0,24);
-      const text = pcText.value.trim().slice(0,300);
-      if (!name || !text){ pcHint.textContent = 'Please enter a name and a message.'; return; }
-      if (!pcCanPost()){ pcHint.textContent = 'You can post again in a few seconds…'; return; }
-      await pcDb.collection('publicChat').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      pcText.value = '';
-      pcMarkPosted();
-      pcHint.textContent = 'Sent ✔';
-      setTimeout(()=> pcHint.textContent = 'Be kind. Max 300 chars. No login needed.', 2000);
+    const firebaseConfig={apiKey:"AIzaSyDTDgv-kqr1GSWguVUBP5NDZvc5U4Z1jSw",authDomain:"kid-in-the-box.firebaseapp.com",projectId:"kid-in-the-box",appId:"513322178741:web:555149700b0a3e5d7a46fc"};
+    if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const pcDb=firebase.firestore();
+    const pcName=document.getElementById('pcName'), pcText=document.getElementById('pcText'), pcSend=document.getElementById('pcSend'), pcFeed=document.getElementById('pcFeed'), pcHint=document.getElementById('pcHint');
+    pcName.value=localStorage.getItem('public-chat-name')||''; pcName.addEventListener('input',()=>localStorage.setItem('public-chat-name',pcName.value));
+    function pcCanPost(){ const last=Number(localStorage.getItem('public-chat-last')||0); return (Date.now()-last)>15000; }
+    function pcMarkPosted(){ localStorage.setItem('public-chat-last',Date.now()); }
+    function pcRender(d){ const wrap=document.createElement('div'); wrap.className='chat-item'; const head=document.createElement('div'); head.className='chat-head';
+      const name=document.createElement('span'); name.className='chat-name'; name.textContent=d.name||'Anon';
+      const time=document.createElement('span'); time.className='chat-time'; const t=d.createdAt?.toDate?d.createdAt.toDate():new Date(); time.textContent='• '+t.toLocaleString();
+      head.appendChild(name); head.appendChild(time); const body=document.createElement('p'); body.style.margin='6px 0 0'; body.textContent=d.text||''; wrap.appendChild(head); wrap.appendChild(body); return wrap; }
+    pcDb.collection('publicChat').orderBy('createdAt','desc').limit(100).onSnapshot(snap=>{ pcFeed.innerHTML=''; snap.forEach(doc=> pcFeed.appendChild(pcRender(doc.data()))); });
+    pcSend.addEventListener('click', async ()=>{ const name=pcName.value.trim().slice(0,24); const text=pcText.value.trim().slice(0,300);
+      if(!name||!text){ pcHint.textContent='Please enter a name and a message.'; return; }
+      if(!pcCanPost()){ pcHint.textContent='You can post again in a few seconds…'; return; }
+      await pcDb.collection('publicChat').add({name,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      pcText.value=''; pcMarkPosted(); pcHint.textContent='Sent ✔'; setTimeout(()=> pcHint.textContent='Be kind. Max 300 chars. No login needed.',2000);
     });
   </script>
+
+  <!-- MUSHROOM FX -->
+  <script>
+    (function(){
+      const c=document.getElementById('mushroomFX'); const ctx=c.getContext('2d');
+      let W=0,H=0,DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1)); const SHROOMS=[];
+      function size(){ W=Math.floor(innerWidth*DPR); H=Math.floor(innerHeight*DPR); c.width=W; c.height=H; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; }
+      function makeShroom(){ const s=(Math.random()*2+1)|0; return { x:Math.random()*W, y:Math.random()*H, s:(s+1), sway:Math.random()*Math.PI*2, speed:(0.08+Math.random()*0.22)*DPR, phase:Math.random()*Math.PI*2, hue:Math.random()<0.5?'#ff00d4':'#00ffea' }; }
+      function pixelCap(x,y,scale,color){ ctx.fillStyle=color; const pat=["00111000","01111100","11111110","11111110","01111100"];
+        for(let r=0;r<pat.length;r++){ for(let c2=0;c2<pat[r].length;c2++){ if(pat[r][c2]==='1'){ ctx.fillRect(x+c2*scale,y+r*scale,scale,scale); } } }
+        ctx.fillStyle='#e6e6ff'; ctx.fillRect(x+3*scale,y+2*scale,scale,scale); ctx.fillRect(x+5*scale,y+1*scale,scale,scale); ctx.fillRect(x+6*scale,y+3*scale,scale,scale);
+        ctx.fillStyle='#ffd6b3'; for(let r=0;r<5;r++) ctx.fillRect(x+3*scale,y+5*scale+r*scale,2*scale,scale);
+      }
+      function init(){ size(); SHROOMS.length=0; const count=Math.round((innerWidth*innerHeight)/25000); for(let i=0;i<count;i++) SHROOMS.push(makeShroom()); }
+      function tick(t){ ctx.clearRect(0,0,W,H); for(const m of SHROOMS){ const swayX=Math.sin(m.sway+t*0.0007)*12*DPR; const bobY=Math.sin(m.phase+t*0.001)*8*DPR; m.x+=Math.cos(m.sway)*0.06*DPR; m.y-=m.speed; if(m.y<-20*DPR){ m.y=H+20*DPR; m.x=Math.random()*W; }
+          const px=Math.floor(m.x+swayX), py=Math.floor(m.y+bobY); pixelCap(px,py,m.s,m.hue); } requestAnimationFrame(tick); }
+      window.addEventListener('resize',init); init(); requestAnimationFrame(tick);
+    })();
+  </script>
+
+  <!-- ▼▼ ADDED: Pixel CRT TV renderer ▼▼ -->
+  <script>
+    (function(){
+      const canvas = document.getElementById('tvCRT');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const W = canvas.width, H = canvas.height;
+      let t = 0;
+
+      // Helper: draw a crisp pixel rect
+      function px(x,y,w,h,color){ ctx.fillStyle=color; ctx.fillRect(x|0,y|0,w|0,h|0); }
+
+      // Draw TV chassis (lots of tiny blocks for detail)
+      function drawChassis(){
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0,0,W,H);
+
+        // Shadow
+        px(4, 94, 152, 22, 'rgba(0,0,0,0.35)');
+
+        // Woodgrain sides
+        for(let y=8; y<100; y+=2){
+          px(4, y, 10, 2, y%4? '#4b2b17':'#5a341d');
+          px(W-14, y, 10, 2, y%4? '#4b2b17':'#5a341d');
+        }
+
+        // Outer bezel
+        px(10, 6, 140, 100, '#2b2b31');
+        // Bezel highlight lines
+        px(10, 6, 140, 1, '#4a4a56'); // top
+        px(10, 105, 140, 1, '#111');  // bottom
+        px(10, 6, 1, 100, '#4a4a56'); // left
+        px(149, 6, 1, 100, '#111');   // right
+
+        // Inner bezel
+        px(16, 12, 128, 88, '#14141a');
+        // Tiny screws
+        px(12, 8, 2, 2, '#7b7b86'); px(146, 8, 2, 2, '#7b7b86');
+        px(12, 104, 2, 2, '#7b7b86'); px(146, 104, 2, 2, '#7b7b86');
+
+        // Speaker grill (right)
+        for(let y=18; y<92; y+=3){
+          for(let x=146; x<154; x+=3){
+            px(x-6, y, 1, 1, '#0b0b10');
+          }
+        }
+        // Knobs
+        px(138, 20, 8, 8, '#222'); px(139, 21, 6, 6, '#3a3a3a');
+        px(138, 32, 8, 8, '#222'); px(139, 33, 6, 6, '#3a3a3a');
+
+        // Feet
+        px(22, 108, 12, 6, '#1a1a1f'); px(126, 108, 12, 6, '#1a1a1f');
+
+        // Bunny-ear antenna (pixel wires)
+        for(let i=0;i<8;i++){
+          px(84+i, 4-i, 1, 1, '#61616b');
+          px(76-i, 4-i, 1, 1, '#61616b');
+        }
+        px(80, 6, 2, 2, '#777');
+      }
+
+      // Static + scanlines + vignette inside screen area
+      const screen = { x: 20, y: 18, w: 120, h: 84 };
+
+      function drawStatic(){
+        // Slight jitter for creepiness
+        const jx = (Math.sin(t*0.13)+Math.cos(t*0.07))*1.2;
+        const jy = (Math.sin(t*0.17))*1.2;
+        const x0 = (screen.x + jx)|0, y0 = (screen.y + jy)|0;
+
+        // Fill screen base
+        px(x0, y0, screen.w, screen.h, '#0c0f14');
+
+        // Noise stripes
+        for(let y=0; y<screen.h; y++){
+          const flick = (Math.random()*24)|0;
+          for(let x=0; x<screen.w; x+=2){
+            const g = 16 + ((Math.random()*48)|0) + ((y%2)?8:0) + flick*0.05;
+            ctx.fillStyle = `rgb(${g},${g},${g})`;
+            ctx.fillRect(x0+x, y0+y, 2, 1);
+          }
+          // occasional glitch bar
+          if(Math.random()<0.02){
+            ctx.fillStyle = 'rgba(210,77,255,0.20)';
+            ctx.fillRect(x0, y0+y, screen.w, 1);
+          }
+        }
+
+        // Curved CRT mask (vignette)
+        const grad = ctx.createRadialGradient(
+          x0+screen.w/2, y0+screen.h/2, 4,
+          x0+screen.w/2, y0+screen.h/2, screen.w
+        );
+        grad.addColorStop(0,'rgba(0,0,0,0)');
+        grad.addColorStop(1,'rgba(0,0,0,0.55)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x0, y0, screen.w, screen.h);
+
+        // Subtle greenish ghost
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = 'rgba(0,255,170,0.05)';
+        ctx.fillRect(x0+1, y0+1, screen.w-2, screen.h-2);
+        ctx.globalCompositeOperation = 'source-over';
+
+        // Horizontal scanlines
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
+        for(let y=0; y<screen.h; y+=2){
+          ctx.fillRect(x0, y0+y, screen.w, 1);
+        }
+      }
+
+      // Pixel text renderer (uses tiny offscreen to keep hard pixels)
+      const off = document.createElement('canvas');
+      off.width = 120; off.height = 84;
+      const octx = off.getContext('2d', { alpha: true });
+      function drawCreepyText(){
+        octx.imageSmoothingEnabled = false;
+        octx.clearRect(0,0,off.width,off.height);
+
+        const lines = [
+          'THE KID',
+          'IN THE',
+          'BOX'
+        ];
+        // base text
+      
+       octx.fillStyle = '#fffd37'; // bright yellow
+       octx.font = '12px "Press Start 2P", VT323, monospace'; // bigger
+
+        octx.textAlign = 'center';
+        octx.textBaseline = 'middle';
+
+        let yy = 24;        // start a tad higher
+       for(const ln of lines){
+       octx.fillText(ln, off.width/2, yy);
+       yy += 24;         // bigger step for bigger font
+       }
+
+
+        // jittered ghost layers for noisy look
+        const layers = [
+          {dx:1, dy:0, fill:'#ff00d4'},
+          {dx:-1, dy:0, fill:'#00ffea'},
+          {dx:0, dy:1, fill:'#fffd37'}
+        ];
+        layers.forEach(L=>{
+          octx.globalCompositeOperation = 'lighter';
+          octx.drawImage(off,
+            0,0,off.width,off.height,
+            L.dx + Math.sin(t*0.21)*1|0,
+            L.dy + Math.cos(t*0.17)*1|0,
+            off.width, off.height
+          );
+          octx.globalCompositeOperation = 'source-over';
+        });
+
+        // Random slice glitches
+        for(let i=0;i<3;i++){
+          const gh = 6 + ((Math.random()*8)|0);
+          const gy = ((Math.random()*off.height)|0);
+          octx.drawImage(off, 0, gy, off.width, gh,
+                              ((Math.random()*3)|0)-1, gy + (((Math.random()*3)|0)-1), off.width, gh);
+        }
+
+        // draw to main canvas inside screen with a pixel offset
+        const sx = screen.x + 4 + (Math.sin(t*0.05)*1|0);
+        const sy = screen.y + 6 + (Math.cos(t*0.04)*1|0);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(off, sx, sy);
+      }
+
+      function frame(){
+        t++;
+        drawChassis();
+        drawStatic();
+        drawCreepyText();
+        // subtle outer glow from screen
+        ctx.globalCompositeOperation = 'lighter';
+        px(screen.x-2, screen.y-2, screen.w+4, screen.h+4, 'rgba(0,224,255,0.05)');
+        ctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+  </script>
+  <!-- ▲▲ ADDED: Pixel CRT TV renderer ▲▲ -->
 </body>
 </html>
